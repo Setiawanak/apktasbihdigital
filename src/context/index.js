@@ -1,10 +1,12 @@
 import {createContext, useContext, useReducer} from 'react';
+import {deleteToken} from '../hooks';
 
 export const UserContext = createContext();
 export const store = () => useContext(UserContext);
 const initialState = {
   isLogin: false,
   user: null,
+  darkMode: false,
 };
 
 const UserReducer = (state, action) => {
@@ -15,10 +17,17 @@ const UserReducer = (state, action) => {
       isLogin: true,
       user: payload,
     }),
-    LOGOUT: () => ({
+    LOGOUT: async () => {
+      await deleteToken();
+      return {
+        ...state,
+        isLogin: false,
+        user: null,
+      };
+    },
+    SET_DARK_MODE: () => ({
       ...state,
-      isLogin: false,
-      user: null,
+      darkMode: payload,
     }),
     default: () => state,
   };

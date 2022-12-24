@@ -1,24 +1,65 @@
-import {StyleSheet, Text, FlatList, TouchableOpacity, View} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  View,
+  TextInput,
+} from 'react-native';
 import React, {useState, useEffect} from 'react';
-import {Axios} from 'axios';
+import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const BASE_URL = 'https://api.quran.sultanlab.id/';
+const BASE_URL = 'https://equran.id/api/';
 
-const Alquran = () => {
+const Alquran = ({navigation}) => {
   const [surah, setSurah] = useState([]);
-  const renderItem = ({item}) => <Item title={item.title} />;
+  const [tempSurah, setTempSurah] = useState([]);
 
-  const getData = async () => {
-    try {
-      axios.get(`${BASE_URL}surah`).then(res => {
-        //console.log(res.data.data);
-        setSurah(res.data.data);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  const [searchText, setSearchText] = useState('');
+
+  const Item = ({item}) => (
+    <TouchableOpacity
+      className="m-2 border p-5 rounded-xl"
+      onPress={() =>
+        navigation.navigate('DetailSurah', {
+          url: `https://equran.id/api/surat/${item.nomor}`,
+        })
+      }>
+      <View className="">
+        <View className="flex-row justify-between">
+          <Text className="text-xl font-bold">{item.nomor}</Text>
+          <Text className="text-xl font-bold">{item.nama_latin}</Text>
+          <Text className="text-xl font-bold">{item.nama}</Text>
+        </View>
+        <View></View>
+      </View>
+    </TouchableOpacity>
+  );
+
+  const getData = () => {
+    axios
+      .get(`${BASE_URL}surat`)
+      .then(res => {
+        setSurah(res.data);
+        setTempSurah(res.data);
+      })
+      .catch(err => console.log(err.response));
   };
+
+  function SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = tempSurah.filter(function (item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.nama_latin
+        ? item.nama_latin.toUpperCase()
+        : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setSearchText(text);
+    setSurah(newData);
+  }
 
   useEffect(() => {
     getData();
@@ -26,24 +67,18 @@ const Alquran = () => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
+      <View className="h-10 w-full bg-white mb-5">
+        <TextInput
+          className="border rounded-2xl mx-4 px-3"
+          placeholder="Cari nama surah"
+          value={searchText}
+          onChangeText={text => SearchFilterFunction(text)}
+        />
+      </View>
       <FlatList
         data={surah}
-        renderItem={(item, index) => {
-          <TouchableOpacity style={styles.wrappersurah}>
-            <Text style={styles.wrapperNumber}>{item.item.number}</Text>
-            <View style={styles.wrapperNameSurah}>
-              <View>
-                <Text style={{fontSize: 16}}>
-                  {item.item.name.transilation.id}
-                </Text>
-                <Text>
-                  {item.item.revelation.id} - {item.item.numberVerses} Ayat{' '}
-                </Text>
-              </View>
-              <Text style={{fontSize: 20}}>{item.item.name.Short}</Text>;
-            </View>
-          </TouchableOpacity>;
-        }}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={Item}
       />
     </SafeAreaView>
   );

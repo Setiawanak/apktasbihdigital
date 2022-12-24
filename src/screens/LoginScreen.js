@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import {login} from '../api/call';
 import {store} from '../context';
+import {saveToken} from '../hooks';
 
 const LoginScreen = () => {
   {
@@ -25,9 +26,10 @@ const LoginScreen = () => {
 
   const handleSubmit = async () => {
     console.log(email, password);
-    const data = login({email, password});
+    const data = await login({email, password});
     if (data) {
-      dispatch({type: 'LOGIN', payload: 'Selamat Datang!'});
+      await saveToken(data.id.toString());
+      dispatch({type: 'LOGIN', payload: data});
     }
   };
 
@@ -91,6 +93,7 @@ const LoginScreen = () => {
               elevation: 2,
               marginTop: 20,
             }}
+            secureTextEntry
             placeholder="Masukan Password Anda!"
             value={password}
           />
@@ -110,9 +113,30 @@ const LoginScreen = () => {
               Login
             </Text>
           </TouchableOpacity>
+          <View
+            style={{
+              width: '100%',
+              alignItems: 'center',
+            }}>
+            <TouchableOpacity
+              style={{
+                width: 100,
+                marginTop: 20,
+              }}>
+              <Text
+                style={{
+                  color: '#1E71A3',
+                  fontWeight: 'bold',
+
+                  textAlign: 'center',
+                }}>
+                Lupa Password
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* TULISAN ATAU */}
-          <Text
+          {/* <Text
             style={{
               color: '#FFFFFF',
               textAlign: 'center',
@@ -122,7 +146,7 @@ const LoginScreen = () => {
               fontSize: 20,
             }}>
             Atau
-          </Text>
+          </Text> */}
 
           {/* kotak LOGIN DENGAN GOOGLE (WARNA)*/}
           {/* <TouchableOpacity style ={{
@@ -191,36 +215,32 @@ const LoginScreen = () => {
         </TouchableOpacity> */}
 
           {/* Tombol untuk ke Register*/}
-
-          <Text
+          <View
             style={{
-              color: '#FFFFFF',
-              fontWeight: 'bold',
+              marginTop: 20,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center',
             }}>
-            Belum Memiliki Akun?{' '}
-            <TouchableOpacity>
+            <Text
+              style={{
+                color: '#FFFFFF',
+                fontWeight: 'bold',
+              }}>
+              Belum Memiliki Akun?{'   '}
+            </Text>
+
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
               <Text
                 style={{
                   color: '#1E71A3',
                   fontSize: 20,
+                  alignItems: 'center',
                 }}>
                 Register
               </Text>
             </TouchableOpacity>
-          </Text>
-
-          <TouchableOpacity>
-            <Text
-              style={{
-                color: '#1E71A3',
-                fontWeight: 'bold',
-                marginTop: 20,
-                textAlign: 'right',
-                marginBottom: 20,
-              }}>
-              Lupa Password
-            </Text>
-          </TouchableOpacity>
+          </View>
         </ScrollView>
       </ImageBackground>
     </View>

@@ -8,15 +8,45 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
+import {register} from '../api/call';
 
-const RegistrationScreen = () => {
+const RegistrationScreen = ({navigation}) => {
   {
     /* INISIALISASI CODE */
   }
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
+
+  const onSubmit = async () => {
+    if (!name.trim() || !email.trim() || !Password.trim()) {
+      return Alert.alert('Error', 'Semua field harus diisi!');
+    }
+
+    const submit = await register({
+      name,
+      email,
+      password: Password,
+    });
+    console.log(submit);
+    let alert = {};
+
+    if (submit) {
+      alert = {
+        title: 'Sukses register',
+        message: 'Akun anda telah berhasil didaftarkan!',
+      };
+    } else {
+      alert = {
+        title: 'Register Gagal!',
+        message: 'Harap periksa kembali data anda!',
+      };
+    }
+
+    Alert.alert(alert.title, alert.message);
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -94,6 +124,7 @@ const RegistrationScreen = () => {
 
           {/* BUTTON LOGIN */}
           <TouchableOpacity
+            onPress={onSubmit}
             style={{
               backgroundColor: '#0096FF',
               justifyContent: 'center',
@@ -106,6 +137,23 @@ const RegistrationScreen = () => {
               Register
             </Text>
           </TouchableOpacity>
+
+          <View>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('Login')}
+              style={{
+                width: 100,
+                marginTop: 20,
+              }}>
+              <Text
+                style={{
+                  color: '#1E71A3',
+                  fontWeight: 'bold',
+                }}>
+                Login, Jika sudah mempunyai akun
+              </Text>
+            </TouchableOpacity>
+          </View>
 
           {/* TULISAN ATAU */}
           {/* <Text style={{

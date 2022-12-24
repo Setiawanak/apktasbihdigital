@@ -6,24 +6,39 @@ import {
   TouchableOpacity,
   StatusBar,
   Image,
+  ImageBackground,
 } from 'react-native';
 import {Switch} from 'react-native-switch';
 import React, {useState} from 'react';
 import {store} from '../context';
 import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import EnIcon from 'react-native-vector-icons/Entypo';
 
 //onst [filter, setFilter] = useState('');
 
-const HomeScreen = () => {
+const HomeScreen = ({navigation}) => {
   const {state, dispatch} = store();
-  const isDarkMode = useColorScheme() === 'dark';
-  const [isDark, setIsDark] = useState(isDarkMode);
+  const [isDark, setIsDark] = useState(state.darkMode);
+
+  const menuList = [
+    {
+      nama: 'Membaca Alquran',
+      image: require('../images/alquran.png'),
+      path: 'Alquran',
+    },
+    {
+      nama: 'Bertasbih',
+      image: require('../images/tasbih.jpg'),
+      path: 'Bertasbih',
+    },
+  ];
+
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: isDark ? '#181a20' : 'white',
+        backgroundColor: state.darkMode ? '#181a20' : 'white',
       }}>
       <StatusBar backgroundColor="#181a20" barstyle="light-conten" />
       <View
@@ -31,47 +46,39 @@ const HomeScreen = () => {
           flex: 1,
           margin: 20,
         }}>
-        <TouchableOpacity onPress={() => dispatch({type: 'LOGOUT'})}>
-          <Text
-            style={{
-              color: isDark ? '#F4F5F9' : '#181a20',
-              fontWeight: 'bold',
-              textAlign: 'right',
-            }}>
-            Logout
-          </Text>
-          <Text
-            style={{
-              color: '#FFFFFF',
-              marginTop: -20,
-            }}>
-            <Switch
-              value={isDark}
-              onValueChange={val => setIsDark(val)}
-              disabled={false}
-              activeText={'On'}
-              inActiveText={'Off'}
-              circleSize={30}
-              circleBorderWidth={3}
-              backgroundActive={'#F4F5F9'}
-              backgroundInactive={'#181a20'}
-              circleActiveColor={'#181a20'}
-              circleInActiveColor={'#F4F5F9'}
-              changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
-              innerCircleStyle={{
-                alignItems: 'center',
-                justifyContent: 'center',
-              }} // style for inner animated circle for what you (may) be rendering inside the circle
-              outerCircleStyle={{}} // style for outer animated circle
-              renderActiveText={false}
-              renderInActiveText={false}
-              switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
-              switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
-              switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
-              switchBorderRadius={30} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
-            />
-          </Text>
-        </TouchableOpacity>
+        <View className="flex-row justify-between items-center mt-3">
+          <TouchableOpacity onPress={() => navigation.openDrawer()}>
+            <EnIcon name="menu" size={30} color="black" />
+          </TouchableOpacity>
+
+          <Switch
+            value={state.darkMode}
+            onValueChange={val =>
+              dispatch({type: 'SET_DARK_MODE', payload: val})
+            }
+            activeText={'On'}
+            inActiveText={'Off'}
+            circleSize={20}
+            circleBorderWidth={3}
+            backgroundActive={'#F4F5F9'}
+            backgroundInactive={'#181a20'}
+            circleActiveColor={'#181a20'}
+            circleInActiveColor={'#F4F5F9'}
+            changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
+            innerCircleStyle={{
+              alignItems: 'center',
+              justifyContent: 'center',
+            }} // style for inner animated circle for what you (may) be rendering inside the circle
+            outerCircleStyle={{}} // style for outer animated circle
+            renderActiveText={false}
+            renderInActiveText={false}
+            switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
+            switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
+            switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
+            switchBorderRadius={20} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
+          />
+        </View>
+
         <Image
           style={{
             width: 50,
@@ -93,7 +100,7 @@ const HomeScreen = () => {
             textAlign: 'right',
             marginBottom: 20,
           }}>
-          HI Daniel Setiawan!
+          HI {state.user.nama_pentasbih} !
         </Text>
         <Text
           style={{
@@ -155,34 +162,43 @@ const HomeScreen = () => {
             marginTop: -30,
             flex: 1,
             textColor: isDark ? '#F4F5F9' : '#181a20',
-            marginHorizontal: 20,
           }}
           itemDimension={130}
           spacing={50}
-          data={[1, 2]}
+          data={menuList}
           renderItem={({item}) => (
             <TouchableOpacity
+              onPress={() => navigation.navigate(item.path)}
               style={{
                 backgroundColor: isDark ? '#F4F5F9' : '#181a20',
-                height: 250,
+                height: 150,
                 justifyContent: 'center',
                 spacing: 100,
                 alignItems: 'center',
-                width: 200,
+                width: 250,
                 borderRadius: 15,
                 elevation: 3,
               }}>
-              <Text>{item}</Text>
+              <ImageBackground
+                source={item.image}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    color: isDark ? '#181a20' : '#F4F5F9',
+                  }}>
+                  {item.nama}
+                </Text>
+              </ImageBackground>
             </TouchableOpacity>
           )}
         />
-      </View>
-
-      {/*Menu bawah*/}
-      <View style={{backgroundColor: '#ffffff'}}>
-        <TouchableOpacity style={{flex: 1}}>
-          <Icon name="rocket" size={30} color="#900" />
-        </TouchableOpacity>
       </View>
     </View>
   );

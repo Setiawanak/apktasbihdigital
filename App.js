@@ -77,7 +77,7 @@ function MyTabs() {
       />
       <Tab.Screen
         name="Profle"
-        component={VoiceTest}
+        component={Profile}
         options={{
           tabBarIcon: ({color, size}) => (
             <Icon name="user-alt" color={color} size={size} />

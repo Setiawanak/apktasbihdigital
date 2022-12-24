@@ -11,8 +11,14 @@ function VoiceTest() {
   const [started, setStarted] = useState('');
   const [results, setResults] = useState([]);
   const [partialResults, setPartialResults] = useState([]);
+  const [counter, setCounter] = useState(0);
 
   useEffect(() => {
+    async function get() {
+      console.log(await Voice.isAvailable());
+      console.log(await Voice.getSpeechRecognitionServices());
+    }
+    get();
     Voice.onSpeechStart = onSpeechStart;
     Voice.onSpeechRecognized = onSpeechRecognized;
     Voice.onSpeechEnd = onSpeechEnd;
@@ -48,16 +54,28 @@ function VoiceTest() {
 
   const onSpeechResults = e => {
     console.log('onSpeechResults: ', e);
+    e.value.map(item => {
+      console.log(item);
+      if (item == 'subhanallah') {
+        setCounter(counter + 1);
+      }
+    });
     setResults(e.value);
   };
 
   const onSpeechPartialResults = e => {
     console.log('onSpeechPartialResults: ', e);
+    e.value.map(item => {
+      console.log(item);
+      if (item == 'subhanallah') {
+        setCounter(counter + 1);
+      }
+    });
     setPartialResults(e.value);
   };
 
   const onSpeechVolumeChanged = e => {
-    console.log('onSpeechVolumeChanged: ', e);
+    // console.log('onSpeechVolumeChanged: ', e);
     setVolume(e.value);
   };
 
@@ -112,6 +130,8 @@ function VoiceTest() {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to React Native Voice!</Text>
+      <Text style={styles.welcome}>Counted : {counter}</Text>
+
       <Text style={styles.instructions}>
         Press the button and start speaking.
       </Text>
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'black',
   },
   welcome: {
     fontSize: 20,

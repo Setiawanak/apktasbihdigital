@@ -4,7 +4,7 @@ import {deleteToken} from '../hooks';
 export const UserContext = createContext();
 export const store = () => useContext(UserContext);
 const initialState = {
-  isLogin: false,
+  isLogin: true,
   user: null,
   darkMode: false,
 };

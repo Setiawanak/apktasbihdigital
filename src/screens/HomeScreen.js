@@ -100,7 +100,7 @@ const HomeScreen = ({navigation}) => {
             textAlign: 'right',
             marginBottom: 20,
           }}>
-          HI {state.user.nama_pentasbih} !
+          HI {state.user?.nama_pentasbih} !
         </Text>
         <Text
           style={{

@@ -1,4 +1,6 @@
 import React, {Component, useState, UseState, useRef, useEffect} from 'react';
+import Voice from '@react-native-voice/voice';
+
 import {
   View,
   TextInput,
@@ -59,6 +61,109 @@ const Bertasbih = ({navigation}) => {
   ];
 
   const [currentSound, setCurrentSound] = useState(listSound[0]);
+
+  useEffect(() => {
+    async function get() {
+      console.log(await Voice.isAvailable());
+      console.log(await Voice.getSpeechRecognitionServices());
+    }
+    get();
+    Voice.onSpeechStart = onSpeechStart;
+    Voice.onSpeechRecognized = onSpeechRecognized;
+    Voice.onSpeechEnd = onSpeechEnd;
+    Voice.onSpeechError = onSpeechError;
+    Voice.onSpeechResults = onSpeechResults;
+    Voice.onSpeechPartialResults = onSpeechPartialResults;
+    Voice.onSpeechVolumeChanged = onSpeechVolumeChanged;
+
+    return () => {
+      Voice.destroy().then(Voice.removeAllListeners);
+    };
+  }, []);
+
+  const onSpeechStart = e => {
+    console.log('onSpeechStart: ', e);
+  };
+
+  const onSpeechRecognized = e => {
+    console.log('onSpeechRecognized: ', e);
+  };
+
+  const onSpeechEnd = e => {
+    console.log('onSpeechEnd: ', e);
+  };
+
+  const onSpeechError = e => {
+    console.log('onSpeechError: ', e);
+  };
+
+  const onSpeechResults = e => {
+    console.log('onSpeechResults: ', e);
+    e.value.map(item => {
+      console.log(item);
+      if (
+        item == 'subhanallah' ||
+        item == 'alhamdulillah' ||
+        item == 'allahuakbar'
+      ) {
+        setCurrentTarget(currentSound + 1);
+      }
+    });
+  };
+
+  const onSpeechPartialResults = e => {
+    console.log('onSpeechPartialResults: ', e);
+    e.value.map(item => {
+      console.log(item);
+      if (
+        item == 'subhanallah' ||
+        item == 'alhamdulillah' ||
+        item == 'allahuakbar'
+      ) {
+        setCurrentTarget(currentSound + 1);
+      }
+    });
+  };
+
+  const onSpeechVolumeChanged = e => {
+    console.log('onSpeechVolumeChanged: ', e);
+  };
+
+  const _startRecognizing = async () => {
+    try {
+      await Voice.start('id-ID');
+      console.log('called start');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _stopRecognizing = async () => {
+    try {
+      await Voice.stop();
+      console.log('called stop');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _cancelRecognizing = async () => {
+    try {
+      await Voice.cancel();
+      console.log('Cancel Recog');
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const _destroyRecognizer = async () => {
+    try {
+      await Voice.destroy();
+      console.log('destroy Recog');
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleNextSound = () => {
     currentSound.sound.stop();
@@ -257,6 +362,12 @@ const Bertasbih = ({navigation}) => {
               <Text className="text-white text-center" style={{fontSize: 80}}>
                 {currentTarget}
               </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={_startRecognizing}
+              className="w-32 h-32 bg-[#6B6565] my-4 rounded-full justify-center items-center">
+              <Icon name="microphone" size={40} color="white" />
             </TouchableOpacity>
           </View>
         </View>

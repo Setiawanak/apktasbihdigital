@@ -109,6 +109,7 @@ const Bertasbih = ({navigation}) => {
         setCurrentTarget(currentSound + 1);
       }
     });
+    // setCurrentTarget(currentSound + 1);
   };
 
   const onSpeechPartialResults = e => {
@@ -123,6 +124,7 @@ const Bertasbih = ({navigation}) => {
         setCurrentTarget(currentSound + 1);
       }
     });
+    // setCurrentTarget(currentSound + 1);
   };
 
   const onSpeechVolumeChanged = e => {

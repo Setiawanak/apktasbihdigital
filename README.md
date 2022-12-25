@@ -14,3 +14,15 @@ Development started From Okt 2020 (UAS Semester 3)
 Development Paused Feb 2021 - Jun 2021
 
 Development Progress Des 2022
+
+## Current app version
+
+`1.3.2` - 26/12/2022 02:16 AM
+
+_Starting from version 1.0.0, versionName will start following **Semantic version renaming** represents by this **major.minor.point** format._
+
+Example:
+
+- 1.0.0 to 1.0.1 for a bug fix
+- 1.0.0 to 1.2.0 for any new feature
+- 1.0.0 to 2.0.0 for a major design change, like supporting tablets etc..

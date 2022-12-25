@@ -11,7 +11,8 @@ import {
   ScrollView,
 } from 'react-native';
 import {login} from '../api/call';
-import {store} from '../context';
+import {store} from '../context/index';
+import {darkModeColor} from '../conts/colors';
 import {saveToken} from '../hooks';
 
 const LoginScreen = () => {
@@ -20,6 +21,7 @@ const LoginScreen = () => {
   }
   const navigation = useNavigation();
   const {state, dispatch} = store();
+  const {container, content} = darkModeColor();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,8 +35,8 @@ const LoginScreen = () => {
     }
   };
 
-  const navigateToLogin = () => {
-    navigation.navigate('/login');
+  const navigateToForgetPassword = () => {
+    navigation.navigate('ForgetPassword');
   };
 
   return (
@@ -78,6 +80,7 @@ const LoginScreen = () => {
               borderRadius: 6,
               elevation: 2,
               marginTop: 20,
+              color: 'black',
             }}
             placeholder="Masukan Email Anda!"
             value={email}
@@ -91,6 +94,7 @@ const LoginScreen = () => {
               paddingLeft: 10,
               borderRadius: 6,
               elevation: 2,
+              color: 'black',
               marginTop: 20,
             }}
             secureTextEntry
@@ -119,6 +123,7 @@ const LoginScreen = () => {
               alignItems: 'center',
             }}>
             <TouchableOpacity
+              onPress={navigateToForgetPassword}
               style={{
                 width: 100,
                 marginTop: 20,

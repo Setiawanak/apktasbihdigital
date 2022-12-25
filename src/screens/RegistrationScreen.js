@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native';
 import {register} from '../api/call';
+import {darkModeColor} from '../conts/colors';
 
 const RegistrationScreen = ({navigation}) => {
   {
@@ -19,7 +20,7 @@ const RegistrationScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
-
+  const {content, container} = darkModeColor();
   const onSubmit = async () => {
     if (!name.trim() || !email.trim() || !Password.trim()) {
       return Alert.alert('Error', 'Semua field harus diisi!');
@@ -89,6 +90,7 @@ const RegistrationScreen = ({navigation}) => {
               borderRadius: 6,
               elevation: 2,
               marginTop: 20,
+              color: 'black',
             }}
             placeholder="Masukan Nama Anda!"
             value={name}
@@ -103,6 +105,7 @@ const RegistrationScreen = ({navigation}) => {
               borderRadius: 6,
               elevation: 2,
               marginTop: 20,
+              color: 'black',
             }}
             placeholder="Masukan Email Anda!"
             value={email}
@@ -117,6 +120,7 @@ const RegistrationScreen = ({navigation}) => {
               borderRadius: 6,
               elevation: 2,
               marginTop: 20,
+              color: 'black',
             }}
             placeholder="Masukan Password Anda!"
             value={Password}

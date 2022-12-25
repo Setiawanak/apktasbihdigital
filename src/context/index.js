@@ -4,14 +4,19 @@ import {deleteToken} from '../hooks';
 export const UserContext = createContext();
 export const store = () => useContext(UserContext);
 const initialState = {
-  isLogin: true,
+  isLogin: false,
   user: null,
   darkMode: false,
+  splash: true,
 };
 
 const UserReducer = (state, action) => {
   const {type, payload} = action;
   const actions = {
+    TURN_OFF_SPLASH: () => ({
+      ...state,
+      splash: false,
+    }),
     LOGIN: () => ({
       ...state,
       isLogin: true,

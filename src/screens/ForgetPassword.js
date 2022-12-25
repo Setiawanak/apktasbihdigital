@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/native';
 import React, {useState, useEffect} from 'react';
 import {
   View,
@@ -14,9 +15,14 @@ const ForgetPassword = () => {
   {
     /* INISIALISASI CODE */
   }
+  const navigation = useNavigation();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
+
+  const navigateToLoginScreen = () => {
+    navigation.navigate('Login');
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -115,7 +121,7 @@ const ForgetPassword = () => {
               marginTop: 20,
             }}>
             Apakah Anda mengingat password anda?{' '}
-            <TouchableOpacity>
+            <TouchableOpacity onPress={navigateToLoginScreen}>
               <Text
                 style={{
                   color: '#1E71A3',

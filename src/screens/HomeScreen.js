@@ -15,12 +15,7 @@ import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
 
-//onst [filter, setFilter] = useState('');
-
 const HomeScreen = ({navigation}) => {
-  const {state, dispatch} = store();
-  const [isDark, setIsDark] = useState(state.darkMode);
-
   const menuList = [
     {
       nama: 'Membaca Alquran',
@@ -34,21 +29,43 @@ const HomeScreen = ({navigation}) => {
     },
   ];
 
+  // inisialisasi state
+  const {state, dispatch} = store();
+  const [searchText, setSearchText] = useState('');
+  const [tempList, setTempList] = useState(menuList);
+
+  // funtion filter searching menu
+  function SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = menuList.filter(function (item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.nama ? item.nama.toUpperCase() : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setSearchText(text);
+    setTempList(newData);
+  }
+
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: state.darkMode ? '#181a20' : 'white',
       }}>
-      <StatusBar backgroundColor="#181a20" barstyle="light-conten" />
+      <StatusBar backgroundColor="#181a20" barstyle="light-content" />
       <View
         style={{
           flex: 1,
           margin: 20,
         }}>
-        <View className="flex-row justify-between items-center mt-3">
+        <View className="flex-row justify-between items-center">
           <TouchableOpacity onPress={() => navigation.openDrawer()}>
-            <EnIcon name="menu" size={30} color="black" />
+            <EnIcon
+              name="menu"
+              size={30}
+              color={state.darkMode ? 'white' : 'black'}
+            />
           </TouchableOpacity>
 
           <Switch
@@ -93,7 +110,7 @@ const HomeScreen = ({navigation}) => {
 
         <Text
           style={{
-            color: isDark ? '#F4F5F9' : '#181a20',
+            color: state.darkMode ? '#F4F5F9' : '#181a20',
             fontSize: 20,
             fontWeight: 'bold',
             marginTop: -70,
@@ -104,7 +121,7 @@ const HomeScreen = ({navigation}) => {
         </Text>
         <Text
           style={{
-            color: isDark ? '#F4F5F9' : '#181a20',
+            color: state.darkMode ? '#F4F5F9' : '#181a20',
             fontSize: 15,
             textAlign: 'right',
             marginTop: -10,
@@ -114,12 +131,12 @@ const HomeScreen = ({navigation}) => {
         </Text>
         <View>
           <TextInput
-            onChangeText={text => text}
+            onChangeText={text => SearchFilterFunction(text)}
             style={{
-              color: isDark ? '#181a20' : '#F4F5F9',
+              color: state.darkMode ? '#181a20' : '#F4F5F9',
               fontWeight: 'bold',
-              backgroundColor: isDark ? '#F4F5F9' : '#181a20',
-              width: 275,
+              backgroundColor: state.darkMode ? '#F4F5F9' : '#181a20',
+              width: 360,
               paddingLeft: 40,
               borderRadius: 10,
               elevation: 10,
@@ -127,21 +144,10 @@ const HomeScreen = ({navigation}) => {
             }}
             placeholderTextColor="green"
             placeholder="Membaca Alqur'an, Bertasbih"
+            value={searchText}
           />
         </View>
 
-        <TextInput
-          onChangeText={text => text}
-          style={{
-            backgroundColor: isDark ? '#F4F5F9' : '#181a20',
-            width: 50,
-            paddingLeft: 40,
-            borderRadius: 10,
-            marginLeft: 300,
-            elevation: 300,
-            marginTop: -70,
-          }}
-        />
         <View
           style={{
             padding: 10,
@@ -150,7 +156,7 @@ const HomeScreen = ({navigation}) => {
           }}>
           <Text
             style={{
-              color: isDark ? '#F4F5F9' : '#181a20',
+              color: state.darkMode ? '#F4F5F9' : '#181a20',
               fontSize: 15,
               fontWeight: 'bold',
             }}>
@@ -161,16 +167,16 @@ const HomeScreen = ({navigation}) => {
           style={{
             marginTop: -30,
             flex: 1,
-            textColor: isDark ? '#F4F5F9' : '#181a20',
+            textColor: state.darkMode ? '#F4F5F9' : '#181a20',
           }}
           itemDimension={130}
           spacing={50}
-          data={menuList}
+          data={tempList}
           renderItem={({item}) => (
             <TouchableOpacity
               onPress={() => navigation.navigate(item.path)}
               style={{
-                backgroundColor: isDark ? '#F4F5F9' : '#181a20',
+                backgroundColor: state.darkMode ? '#F4F5F9' : '#181a20',
                 height: 150,
                 justifyContent: 'center',
                 spacing: 100,
@@ -184,14 +190,14 @@ const HomeScreen = ({navigation}) => {
                 style={{
                   height: '100%',
                   width: '100%',
-                  justifyContent: 'center',
+                  justifyContent: 'flex-end',
                   alignItems: 'center',
                 }}>
                 <Text
                   style={{
                     fontSize: 20,
                     fontWeight: 'bold',
-                    color: isDark ? '#181a20' : '#F4F5F9',
+                    color: state.darkMode ? '#181a20' : '#F4F5F9',
                   }}>
                   {item.nama}
                 </Text>

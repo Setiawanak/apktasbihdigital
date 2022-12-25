@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import IonIcons from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
 import {
+  Alert,
   Button,
   Linking,
   Text,
@@ -30,6 +31,7 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import VoiceTest from './src/screens/TestVoice';
+import SplashScreen from './src/screens/SplashScreen';
 
 const Drawer = createDrawerNavigator();
 const NativeStack = createNativeStackNavigator();
@@ -55,16 +57,22 @@ const AuthStack = () => {
       }}>
       <NativeStack.Screen component={LoginScreen} name="Login" />
       <NativeStack.Screen component={RegistrationScreen} name="Register" />
+      <NativeStack.Screen component={ForgetPassword} name="ForgetPassword" />
     </NativeStack.Navigator>
   );
 };
 
 function MyTabs() {
+  const {state, dispatch} = store();
+
   return (
     <Tab.Navigator
       initialRouteName="Home"
       screenOptions={{
         headerShown: false,
+        tabBarStyle: {
+          backgroundColor: state.darkMode ? '#181a20' : '#F4F5F9',
+        },
       }}>
       <Tab.Screen
         name="Home"
@@ -90,6 +98,8 @@ function MyTabs() {
 }
 
 const LoggedStack = () => {
+  const {state, dispatch} = store();
+
   return (
     <NativeStack.Navigator
       initialRouteName="Main"
@@ -102,6 +112,11 @@ const LoggedStack = () => {
         name="Alquran"
         options={{
           headerShown: true,
+
+          headerStyle: {
+            backgroundColor: state.darkMode ? '#181a20' : '#F4F5F9',
+          },
+          headerTintColor: state.darkMode ? '#F4F5F9' : '#181a20',
         }}
       />
       <NativeStack.Screen component={Bertasbih} name="Bertasbih" />
@@ -110,6 +125,10 @@ const LoggedStack = () => {
         name="DetailSurah"
         options={{
           headerShown: true,
+          headerStyle: {
+            backgroundColor: state.darkMode ? '#181a20' : '#F4F5F9',
+          },
+          headerTintColor: state.darkMode ? '#F4F5F9' : '#181a20',
         }}
       />
     </NativeStack.Navigator>
@@ -117,6 +136,10 @@ const LoggedStack = () => {
 };
 
 function MyDrawer() {
+  const {state, dispatch} = store();
+
+  let message =
+    'Assalamualaikum wr wb, Aplikasi Tasbih Online digital: dibuat oleh Ade Kukuh Setiawan ';
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -124,11 +147,26 @@ function MyDrawer() {
       }}
       drawerContent={props => {
         return (
-          <DrawerContentScrollView {...props}>
+          <DrawerContentScrollView
+            contentContainerStyle={{
+              flex: 1,
+              backgroundColor: state.darkMode ? 'black' : 'white',
+            }}
+            {...props}>
             <DrawerItemList {...props} />
             <DrawerItem
+              labelStyle={{
+                color: state.darkMode ? 'white' : 'black',
+              }}
               label="Github"
               onPress={() => Linking.openURL('http://google.com')}
+            />
+            <DrawerItem
+              label="About"
+              labelStyle={{
+                color: state.darkMode ? 'white' : 'black',
+              }}
+              onPress={() => Alert.alert('TASBIH DIGITAL', message)}
             />
           </DrawerContentScrollView>
         );
@@ -140,23 +178,10 @@ function MyDrawer() {
 
 const Routes = () => {
   const {state, dispatch} = store();
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const checkLogin = async () => {
-    const token = await getToken();
-
-    if (!token) {
-      return;
-    }
-
-    const user = await checkUser(+token);
-    dispatch({type: 'LOGIN', payload: user});
-  };
-
-  useEffect(() => {
-    checkLogin();
-    dispatch({type: 'SET_DARK_MODE', payload: isDarkMode});
-  }, []);
+  if (state.splash) {
+    return <SplashScreen />;
+  }
 
   if (state.isLogin) {
     return <MyDrawer />;

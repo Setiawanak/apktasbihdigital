@@ -9,10 +9,13 @@ import {
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {darkModeColor} from '../conts/colors';
 
 const BASE_URL = 'https://equran.id/api/';
 
 const Alquran = ({navigation}) => {
+  const {container, content} = darkModeColor();
+
   const [surah, setSurah] = useState([]);
   const [tempSurah, setTempSurah] = useState([]);
 
@@ -20,7 +23,7 @@ const Alquran = ({navigation}) => {
 
   const Item = ({item}) => (
     <TouchableOpacity
-      className="m-2 border p-5 rounded-xl"
+      className="m-2 border p-5 rounded-xl border-gray-400"
       onPress={() =>
         navigation.navigate('DetailSurah', {
           url: `https://equran.id/api/surat/${item.nomor}`,
@@ -28,9 +31,27 @@ const Alquran = ({navigation}) => {
       }>
       <View className="">
         <View className="flex-row justify-between">
-          <Text className="text-xl font-bold">{item.nomor}</Text>
-          <Text className="text-xl font-bold">{item.nama_latin}</Text>
-          <Text className="text-xl font-bold">{item.nama}</Text>
+          <Text
+            className="text-xl font-bold "
+            style={{
+              color: content,
+            }}>
+            {item.nomor}
+          </Text>
+          <Text
+            style={{
+              color: content,
+            }}
+            className="text-xl font-bold">
+            {item.nama_latin}
+          </Text>
+          <Text
+            style={{
+              color: content,
+            }}
+            className="text-xl font-bold">
+            {item.nama}
+          </Text>
         </View>
         <View></View>
       </View>
@@ -60,16 +81,27 @@ const Alquran = ({navigation}) => {
     setSearchText(text);
     setSurah(newData);
   }
-
+  // function yang dijalanin compenent diakses (Ketika dibuka dan ditutup)
   useEffect(() => {
     getData();
   }, []);
 
   return (
-    <SafeAreaView style={styles.wrapper}>
-      <View className="h-10 w-full bg-white mb-5">
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: container,
+      }}>
+      <View
+        className="h-10 w-full  my-5"
+        style={{
+          backgroundColor: container,
+        }}>
         <TextInput
-          className="border rounded-2xl mx-4 px-3"
+          className="border rounded-2xl mx-4 px-3 bg-gray-200 py-2"
+          style={{
+            color: 'black',
+          }}
           placeholder="Cari nama surah"
           value={searchText}
           onChangeText={text => SearchFilterFunction(text)}
@@ -79,6 +111,9 @@ const Alquran = ({navigation}) => {
         data={surah}
         keyExtractor={(item, index) => index.toString()}
         renderItem={Item}
+        contentContainerStyle={{
+          backgroundColor: container,
+        }}
       />
     </SafeAreaView>
   );

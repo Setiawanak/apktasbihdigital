@@ -127,6 +127,7 @@ function VoiceTest() {
     setPartialResults([]);
   };
 
+  // Voice recognized ini cuma bisa 10 detik dan contohnya kaya di google search voice (google assisten)
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome to React Native Voice!</Text>

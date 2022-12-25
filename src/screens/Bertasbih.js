@@ -78,6 +78,7 @@ const Bertasbih = ({navigation}) => {
 
     return () => {
       Voice.destroy().then(Voice.removeAllListeners);
+      currentSound.sound.stop();
     };
   }, []);
 

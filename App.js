@@ -158,8 +158,12 @@ function MyDrawer() {
               labelStyle={{
                 color: state.darkMode ? 'white' : 'black',
               }}
-              label="Github"
-              onPress={() => Linking.openURL('http://google.com')}
+              label="Github Repository"
+              onPress={() =>
+                Linking.openURL(
+                  'https://github.com/Setiawanak/apktasbihdigital',
+                )
+              }
             />
             <DrawerItem
               label="About"

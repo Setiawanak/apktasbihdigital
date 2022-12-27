@@ -26,3 +26,8 @@ Example:
 - 1.0.0 to 1.0.1 for a bug fix
 - 1.0.0 to 1.2.0 for any new feature
 - 1.0.0 to 2.0.0 for a major design change, like supporting tablets etc..
+
+## App UI
+
+![1599723676714](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356594573412/1.jpeg)
+![1599723696123](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356351311932/6.jpeg)

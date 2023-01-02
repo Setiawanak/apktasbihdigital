@@ -9,7 +9,7 @@ E-Counter-like app . This project is developed for my Bachelor's Degree Thesis. 
 
 **ENDED**
 
-Development started From Okt 2020 (UAS Semester 3)
+Development started From Okt 2020 (UAS Semester 9)
 
 Development Paused Feb 2022 - Jun 2022
 

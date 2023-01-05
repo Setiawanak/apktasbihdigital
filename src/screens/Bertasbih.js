@@ -58,6 +58,16 @@ const Bertasbih = ({navigation}) => {
         }
       }),
     },
+    {
+      id: 4,
+      title: 'الله أكبر',
+      sound: new Sound('allahuakbar.mp3', Sound.MAIN_BUNDLE, error => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+      }),
+    },
   ];
 
   const [currentSound, setCurrentSound] = useState(listSound[0]);

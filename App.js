@@ -23,6 +23,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import Bertasbih from './src/screens/Bertasbih';
 import Profile from './src/screens/Profile';
 import Alquran from './src/screens/Alquran';
+import Berdoa from './src/screens/Berdoa';
 import DetailSurah from './src/screens/DetailSurah';
 import {
   createDrawerNavigator,
@@ -119,7 +120,9 @@ const LoggedStack = () => {
           headerTintColor: state.darkMode ? '#F4F5F9' : '#181a20',
         }}
       />
+
       <NativeStack.Screen component={Bertasbih} name="Bertasbih" />
+      <NativeStack.Screen component={Berdoa} name="Berdoa" />
       <NativeStack.Screen
         component={DetailSurah}
         name="DetailSurah"
@@ -169,7 +172,7 @@ function MyDrawer() {
               labelStyle={{
                 color: state.darkMode ? 'white' : 'black',
               }}
-              label="Berikan Rating untuk Aplikasi di playstore"
+              label="Berikan Rating untuk Aplikasi"
               onPress={() =>
                 Linking.openURL(
                   'https://play.google.com/store/apps?hl=id&gl=US',

@@ -23,13 +23,13 @@ const HomeScreen = ({navigation}) => {
       path: 'Alquran',
     },
     {
-      nama: 'Bertasbih',
+      nama: 'Berdzikir',
       image: require('../images/tasbih.png'),
       path: 'Bertasbih',
     },
     {
       nama: 'Berdoa',
-      image: require('../images/tasbih.jpg'),
+      image: require('../images/berdoa.png'),
       path: 'Berdoa',
     },
   ];
@@ -148,9 +148,17 @@ const HomeScreen = ({navigation}) => {
               marginBottom: 20,
             }}
             placeholderTextColor="green"
-            placeholder="Membaca Alqur'an, Bertasbih"
+            placeholder="Membaca Alqur'an, Bertasbih, Berdoa"
             value={searchText}
           />
+          <Text
+            style={{
+              color: state.darkMode ? '#F4F5F9' : '#181a20',
+              fontSize: 15,
+              fontWeight: 'bold',
+            }}>
+            LIST MENU :
+          </Text>
         </View>
 
         <View
@@ -158,16 +166,7 @@ const HomeScreen = ({navigation}) => {
             padding: 10,
             justifyContent: 'center',
             fontSize: 30,
-          }}>
-          <Text
-            style={{
-              color: state.darkMode ? '#F4F5F9' : '#181a20',
-              fontSize: 15,
-              fontWeight: 'bold',
-            }}>
-            MENU :
-          </Text>
-        </View>
+          }}></View>
         <FlatGrid
           style={{
             marginTop: -30,

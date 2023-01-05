@@ -175,7 +175,7 @@ const Profile = ({navigation}) => {
           style={{
             color: content,
           }}>
-          RIWAYAT BERRTASBIH (HISTORY) :
+          RIWAYAT BERDZIKIR (HISTORY) :
         </Text>
       </View>
       <FlatList
@@ -199,7 +199,7 @@ const Profile = ({navigation}) => {
             </View>
             <View>
               <Text style={{fontSize: 18, color: 'black'}}>
-                {item.tercapai}x bertasbih dari target {item.target}x
+                {item.tercapai}x Bertasbih dari target {item.target}x
               </Text>
               <Text style={{fontWeight: '400', fontSize: 18, color: 'black'}}>
                 {item.tanggal} - {item.waktu}
@@ -208,7 +208,7 @@ const Profile = ({navigation}) => {
             <TouchableOpacity
               onPress={() =>
                 onShare(
-                  `${item.tercapai}x bertasbih dari target ${item.target}x, jam ${item.waktu} pada tanggal ${item.tanggal}`,
+                  `${item.tercapai}x Bertasbih dari target ${item.target}x, jam ${item.waktu} pada tanggal ${item.tanggal}`,
                 )
               }>
               <Icon name="paper-plane" size={20} color="black" />

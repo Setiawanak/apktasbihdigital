@@ -166,7 +166,18 @@ function MyDrawer() {
               }
             />
             <DrawerItem
-              label="About"
+              labelStyle={{
+                color: state.darkMode ? 'white' : 'black',
+              }}
+              label="Berikan Rating untuk Aplikasi di playstore"
+              onPress={() =>
+                Linking.openURL(
+                  'https://play.google.com/store/apps?hl=id&gl=US',
+                )
+              }
+            />
+            <DrawerItem
+              label="About US"
               labelStyle={{
                 color: state.darkMode ? 'white' : 'black',
               }}

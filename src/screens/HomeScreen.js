@@ -24,8 +24,13 @@ const HomeScreen = ({navigation}) => {
     },
     {
       nama: 'Bertasbih',
-      image: require('../images/tasbih.jpg'),
+      image: require('../images/tasbih.png'),
       path: 'Bertasbih',
+    },
+    {
+      nama: 'Berdoa',
+      image: require('../images/tasbih.jpg'),
+      path: 'Berdoa',
     },
   ];
 

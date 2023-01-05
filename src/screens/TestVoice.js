@@ -130,7 +130,9 @@ function VoiceTest() {
   // Voice recognized ini cuma bisa 10 detik dan contohnya kaya di google search voice (google assisten)
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome to React Native Voice!</Text>
+      <Text style={styles.welcome}>
+        Welcome to React Native Voice recognized
+      </Text>
       <Text style={styles.welcome}>Counted : {counter}</Text>
 
       <Text style={styles.instructions}>
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: 'white',
   },
   welcome: {
     fontSize: 20,
@@ -191,13 +193,13 @@ const styles = StyleSheet.create({
   },
   action: {
     textAlign: 'center',
-    color: '#0000FF',
+    color: '#000',
     marginVertical: 5,
     fontWeight: 'bold',
   },
   instructions: {
     textAlign: 'center',
-    color: '#333333',
+    color: '#000',
     marginBottom: 5,
   },
   stat: {

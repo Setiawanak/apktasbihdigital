@@ -100,7 +100,7 @@ const Bertasbih = ({navigation}) => {
 
   const onSpeechResults = e => {
     console.log('onSpeechResults: ', e);
-    e.value.map(item => {
+    /*e.value.map(item => {
       console.log(item);
       if (
         item == 'subhanallah' ||
@@ -109,13 +109,13 @@ const Bertasbih = ({navigation}) => {
       ) {
         setCurrentTarget(currentSound + 1);
       }
-    });
-    // setCurrentTarget(currentSound + 1);
+    }); */
+    setCurrentTarget(currentSound + 1);
   };
 
   const onSpeechPartialResults = e => {
     console.log('onSpeechPartialResults: ', e);
-    e.value.map(item => {
+    /*e.value.map(item => {
       console.log(item);
       if (
         item == 'subhanallah' ||
@@ -123,9 +123,9 @@ const Bertasbih = ({navigation}) => {
         item == 'allahuakbar'
       ) {
         setCurrentTarget(currentSound + 1);
-      }
-    });
-    // setCurrentTarget(currentSound + 1);
+      } 
+    }); */
+    setCurrentTarget(currentSound + 1);
   };
 
   const onSpeechVolumeChanged = e => {

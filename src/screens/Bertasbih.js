@@ -1,4 +1,12 @@
-import React, {Component, useState, UseState, useRef, useEffect} from 'react';
+import React, {
+  Component,
+  useState,
+  UseState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import Voice from '@react-native-voice/voice';
 
 import {
@@ -10,6 +18,8 @@ import {
   StatusBar,
   Image,
   Modal,
+  Dimensions,
+  Vibration,
   Alert,
 } from 'react-native';
 import {Switch} from 'react-native-switch';
@@ -18,20 +28,28 @@ import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import Sound from 'react-native-sound';
 import {reset} from '../api/call';
+
+const {width, height} = Dimensions.get('window');
 
 const Bertasbih = ({navigation}) => {
   const {state, dispatch} = store();
   const [switchValue, setSwitchValue] = useState(false);
   const [target, setTarget] = useState(0);
+  const [subTarget, setSubTarget] = useState(0);
+
   const [currentTarget, setCurrentTarget] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+  const [clickMode, setClickMode] = useState(false);
+
   const listSound = [
     {
       id: 1,
       title: 'سبحان الله',
-      sound: new Sound('subhannallah.mp3', Sound.MAIN_BUNDLE, error => {
+      sound: new Sound('subhanallah.mp3', Sound.MAIN_BUNDLE, error => {
         if (error) {
           console.log('failed to load the sound', error);
           return;
@@ -60,8 +78,18 @@ const Bertasbih = ({navigation}) => {
     },
     {
       id: 4,
-      title: 'الله أكبر',
+      title: 'استغفر الله العظيم',
       sound: new Sound('allahuakbar.mp3', Sound.MAIN_BUNDLE, error => {
+        if (error) {
+          console.log('failed to load the sound', error);
+          return;
+        }
+      }),
+    },
+    {
+      id: 5,
+      title: 'لآإِلَهَ إِلاَّ الله',
+      sound: new Sound('lailahaillallah.mp3', Sound.MAIN_BUNDLE, error => {
         if (error) {
           console.log('failed to load the sound', error);
           return;
@@ -71,6 +99,12 @@ const Bertasbih = ({navigation}) => {
   ];
 
   const [currentSound, setCurrentSound] = useState(listSound[0]);
+  const tickSound = new Sound('tick.mp3', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+  });
 
   useEffect(() => {
     async function get() {
@@ -120,23 +154,18 @@ const Bertasbih = ({navigation}) => {
         setCurrentTarget(currentSound + 1);
       }
     }); */
-    setCurrentTarget(currentSound + 1);
+    // setCurrentTarget(currentTarget + 1);
   };
 
-  const onSpeechPartialResults = e => {
+  const onSpeechPartialResults = useCallback(e => {
     console.log('onSpeechPartialResults: ', e);
-    /*e.value.map(item => {
-      console.log(item);
-      if (
-        item == 'subhanallah' ||
-        item == 'alhamdulillah' ||
-        item == 'allahuakbar'
-      ) {
-        setCurrentTarget(currentSound + 1);
-      } 
-    }); */
-    setCurrentTarget(currentSound + 1);
-  };
+    //e.value.map(item => {
+    if (e.value[0] !== '') {
+      handleIncrement();
+    }
+    // });
+    // setCurrentTarget(prev => prev + 1);
+  }, []);
 
   const onSpeechVolumeChanged = e => {
     console.log('onSpeechVolumeChanged: ', e);
@@ -199,7 +228,19 @@ const Bertasbih = ({navigation}) => {
   };
 
   const handleIncrement = () => {
-    setCurrentTarget(currentTarget + 1);
+    if (subTarget % target == 0) {
+      Vibration.vibrate(1000);
+      setSubTarget(0);
+    }
+
+    if (clickMode) {
+      Vibration.vibrate(100);
+    } else {
+      tickSound.play();
+    }
+
+    setCurrentTarget(prev => prev + 1);
+    setSubTarget(prev => prev + 1);
   };
 
   const handlePlaySound = () => {
@@ -238,40 +279,24 @@ const Bertasbih = ({navigation}) => {
               flexDirection: 'row',
               justifyContent: 'space-between',
               alignItems: 'center',
-              width: '25%',
+              width: '20%',
             }}>
-            <TouchableOpacity>
-              <Switch
-                value={switchValue}
-                activeText={'On'}
-                inActiveText={'Off'}
-                onValueChange={val => setSwitchValue(val)}
-                circleSize={20}
-                containerStyle={{
-                  borderColor: 'white',
-                  borderWidth: 2,
-                }}
-                backgroundActive={'#F4F5F9'}
-                backgroundInactive={'#181a20'}
-                circleActiveColor={'#181a20'}
-                circleInActiveColor={'#F4F5F9'}
-                changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
-                innerCircleStyle={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }} // style for inner animated circle for what you (may) be rendering inside the circle
-                outerCircleStyle={{}} // style for outer animated circle
-                renderActiveText={false}
-                renderInActiveText={false}
-                switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
-                switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
-                switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
-                switchBorderRadius={30} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
+            <TouchableOpacity onPress={() => setClickMode(prev => !prev)}>
+              <MCIcon
+                name={clickMode ? 'vibrate' : 'volume-high'}
+                size={20}
+                color="#FFFFFF"
               />
             </TouchableOpacity>
 
-            <TouchableOpacity>
-              <EnIcon name="dots-three-horizontal" size={20} color="#FFFFFF" />
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert(
+                  'INFO CARA PEMAKAIAN DI BERDZIKIR :',
+                  '↩️: UNTUK HAPUS SEMUA\n⏹ : UNTUK MENGHENTIKAN SUARA\n🎙️: UNTUK MENGHITUNG SUARA MEMAKAI VOICE\n▶️: UNTUK MEMULAI SUARA\n📝: UNTUK MEMULAI TARGET',
+                )
+              }>
+              <MCIcon name="note-text-outline" size={20} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         </View>
@@ -323,9 +348,21 @@ const Bertasbih = ({navigation}) => {
                     alignItems: 'center',
                     borderRadius: 50,
                   }}>
-                  <Icon name="volume-mute" size={20} color="#FFFFFF" />
+                  <Icon name="stop" size={20} color="#FFFFFF" />
                 </TouchableOpacity>
               </View>
+              <TouchableOpacity
+                onPress={_startRecognizing}
+                style={{
+                  backgroundColor: '#6B6565',
+                  width: 50,
+                  height: 50,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  borderRadius: 50,
+                }}>
+                <Icon name="microphone" size={30} color="white" />
+              </TouchableOpacity>
               <View className="flex-row w-32 justify-between">
                 <TouchableOpacity
                   onPress={handlePlaySound}
@@ -349,7 +386,7 @@ const Bertasbih = ({navigation}) => {
                     alignItems: 'center',
                     borderRadius: 50,
                   }}>
-                  <Icon name="sticky-note" size={20} color="#FFFFFF" />
+                  <MCIcon name="notebook-edit" size={20} color="#FFFFFF" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -360,27 +397,22 @@ const Bertasbih = ({navigation}) => {
             <View
               className="h-5 bg-[#cecece]"
               style={{
-                width: `${(currentTarget / target) * 100}%`,
+                width: `${(subTarget / target) * 100}%`,
               }}></View>
           </View>
 
           <Text className="text-white text-xl text-center">
-            Target : {target}
+            Target : {subTarget} / {target}
           </Text>
 
-          <View className="justify-center items-center">
+          <View className="justify-center mt-10 items-center">
             <TouchableOpacity
               onPress={handleIncrement}
-              className="w-48 h-48 bg-[#6B6565] my-4 rounded-full justify-center items-center">
-              <Text className="text-white text-center" style={{fontSize: 80}}>
+              className=" bg-[#6B6565] rounded-full justify-center items-center"
+              style={{width: width - 20, height: width - 20}}>
+              <Text className="text-white" style={{fontSize: 80}}>
                 {currentTarget}
               </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              onPress={_startRecognizing}
-              className="w-32 h-32 bg-[#6B6565] my-4 rounded-full justify-center items-center">
-              <Icon name="microphone" size={40} color="white" />
             </TouchableOpacity>
           </View>
         </View>

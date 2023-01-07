@@ -24,6 +24,7 @@ import Bertasbih from './src/screens/Bertasbih';
 import Profile from './src/screens/Profile';
 import Alquran from './src/screens/Alquran';
 import Berdoa from './src/screens/Berdoa';
+import TestVoice from './src/screens/TestVoice';
 import DetailSurah from './src/screens/DetailSurah';
 import {
   createDrawerNavigator,
@@ -123,6 +124,7 @@ const LoggedStack = () => {
 
       <NativeStack.Screen component={Bertasbih} name="Bertasbih" />
       <NativeStack.Screen component={Berdoa} name="Berdoa" />
+      <NativeStack.Screen component={TestVoice} name="TestVoice" />
       <NativeStack.Screen
         component={DetailSurah}
         name="DetailSurah"

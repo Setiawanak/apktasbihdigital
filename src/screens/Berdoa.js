@@ -1,145 +1,94 @@
+import React, {Component, useState, UseState, useRef, useEffect} from 'react';
+import Voice from '@react-native-voice/voice';
+
 import {
-  StyleSheet,
-  Text,
-  FlatList,
-  TouchableOpacity,
   View,
   TextInput,
+  Text,
+  useColorScheme,
+  TouchableOpacity,
+  StatusBar,
+  Image,
+  Modal,
+  Alert,
 } from 'react-native';
-import React, {useState, useEffect} from 'react';
-import axios from 'axios';
+import {Switch} from 'react-native-switch';
+import {store} from '../context';
+import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {darkModeColor} from '../conts/colors';
+import Sound from 'react-native-sound';
+import {reset} from '../api/call';
 
-const BASE_URL = 'https://equran.id/api/';
-
-const Alquran = ({navigation}) => {
-  const {container, content} = darkModeColor();
-
-  const [surah, setSurah] = useState([]);
-  const [tempSurah, setTempSurah] = useState([]);
+const Bertasbih = ({navigation}) => {
+  const [tempList, setTempList] = useState(menuList);
 
   const [searchText, setSearchText] = useState('');
+  const {state, dispatch} = store();
+  const [switchValue, setSwitchValue] = useState(false);
+  const [target, setTarget] = useState(0);
+  const [currentTarget, setCurrentTarget] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
-  const Item = ({item}) => (
-    <TouchableOpacity
-      className="m-2 border p-5 rounded-xl border-gray-400"
-      onPress={() =>
-        navigation.navigate('DetailSurah', {
-          url: `https://equran.id/api/surat/${item.nomor}`,
-        })
-      }>
-      <View className="">
-        <View className="flex-row justify-between">
-          <Text
-            className="text-xl font-bold "
-            style={{
-              color: content,
-            }}>
-            {item.nomor}
-          </Text>
-          <Text
-            style={{
-              color: content,
-            }}
-            className="text-xl font-bold">
-            {item.nama_latin}
-          </Text>
-          <Text
-            style={{
-              color: content,
-            }}
-            className="text-xl font-bold">
-            {item.nama}
-          </Text>
-        </View>
-        <View></View>
-      </View>
-    </TouchableOpacity>
-  );
-
-  const getData = () => {
-    axios
-      .get(`${BASE_URL}surat`)
-      .then(res => {
-        setSurah(res.data);
-        setTempSurah(res.data);
-      })
-      .catch(err => console.log(err.response));
-  };
-
-  function SearchFilterFunction(text) {
-    //passing the inserted text in textinput
-    const newData = tempSurah.filter(function (item) {
-      //applying filter for the inserted text in search bar
-      const itemData = item.nama_latin
-        ? item.nama_latin.toUpperCase()
-        : ''.toUpperCase();
-      const textData = text.toUpperCase();
-      return itemData.indexOf(textData) > -1;
-    });
-    setSearchText(text);
-    setSurah(newData);
-  }
-  // function yang dijalanin compenent diakses (Ketika dibuka dan ditutup)
-  useEffect(() => {
-    getData();
-  }, []);
+  const menuList = [
+    {
+      nama: 'Doa Sehari hari',
+      image: require('../images/alquran.png'),
+      path: 'Alquran',
+    },
+    {
+      nama: 'Berdzikir',
+      image: require('../images/tasbih.png'),
+      path: 'Bertasbih',
+    },
+    {
+      nama: 'Berdoa',
+      image: require('../images/berdoa.png'),
+      path: 'Berdoa',
+    },
+    {
+      nama: 'Test Voice',
+      image: require('../images/setting.png'),
+      path: 'TestVoice',
+    },
+  ];
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: container,
-      }}>
+    <View className="bg-[#181a20] flex-1">
       <View
-        className="h-10 w-full  my-5"
         style={{
-          backgroundColor: container,
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+          padding: 20,
         }}>
-        <TextInput
-          className="border rounded-2xl mx-4 px-3 bg-gray-200 py-2"
+        <View
           style={{
-            color: 'black',
-          }}
-          placeholder="Cari nama surah"
-          value={searchText}
-          onChangeText={text => SearchFilterFunction(text)}
-        />
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icon name="arrow-left" size={20} color="#FFFFFF" />
+          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              width: '15%',
+            }}>
+            <TouchableOpacity>
+              <EnIcon name="bell" size={20} color="#FFFFFF" />
+            </TouchableOpacity>
+            <TouchableOpacity>
+              <EnIcon name="dots-three-horizontal" size={20} color="#FFFFFF" />
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <FlatList
-        data={surah}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={Item}
-        contentContainerStyle={{
-          backgroundColor: container,
-        }}
-      />
-    </SafeAreaView>
+    </View>
   );
 };
 
-export default Alquran;
-
-const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  wrapperNumber: {
-    alignItems: 'center',
-    margin: 5,
-  },
-  wrappersurah: {
-    flexDirection: 'row',
-    margin: 8,
-  },
-  wrapperNamesurah: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    margin: 5,
-  },
-});
+export default Bertasbih;

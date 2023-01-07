@@ -32,6 +32,11 @@ const HomeScreen = ({navigation}) => {
       image: require('../images/berdoa.png'),
       path: 'Berdoa',
     },
+    {
+      nama: 'Test Voice',
+      image: require('../images/setting.png'),
+      path: 'TestVoice',
+    },
   ];
 
   // inisialisasi state

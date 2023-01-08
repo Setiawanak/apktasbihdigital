@@ -30,7 +30,7 @@ const Alquran = ({navigation}) => {
         })
       }>
       <View className="">
-        <View className="flex-row justify-between">
+        <View className="flex justify-between">
           <Text
             className="text-xl font-bold "
             style={{
@@ -39,18 +39,18 @@ const Alquran = ({navigation}) => {
             {item.nomor}
           </Text>
           <Text
+            className="text-xl font-bold "
             style={{
               color: content,
-            }}
-            className="text-xl font-bold">
-            {item.nama_latin}
+            }}>
+            {item.nama}
           </Text>
           <Text
             style={{
               color: content,
             }}
             className="text-xl font-bold">
-            {item.nama}
+            {item.nama_latin} - {item.arti}
           </Text>
         </View>
         <View></View>

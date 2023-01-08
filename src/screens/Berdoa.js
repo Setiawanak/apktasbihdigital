@@ -11,6 +11,7 @@ import {
   Image,
   Modal,
   Alert,
+  ImageBackground,
 } from 'react-native';
 import {Switch} from 'react-native-switch';
 import {store} from '../context';
@@ -33,24 +34,19 @@ const Bertasbih = ({navigation}) => {
 
   const menuList = [
     {
-      nama: 'Doa Sehari hari',
-      image: require('../images/alquran.png'),
-      path: 'Alquran',
+      nama: 'Dzikir Setelah Shalat',
+      image: require('../images/DzikirSetShalat.png'),
+      path: 'DzikirSetShalat',
     },
     {
-      nama: 'Berdzikir',
-      image: require('../images/tasbih.png'),
-      path: 'Bertasbih',
+      nama: 'Doa Setelah Dzikir',
+      image: require('../images/DoaSetShalat.png'),
+      path: 'DoaSetShalat',
     },
     {
-      nama: 'Berdoa',
-      image: require('../images/berdoa.png'),
-      path: 'Berdoa',
-    },
-    {
-      nama: 'Test Voice',
-      image: require('../images/setting.png'),
-      path: 'TestVoice',
+      nama: 'Doa Harian',
+      image: require('../images/doaharian.png'),
+      path: 'DoaHarian',
     },
   ];
 
@@ -86,6 +82,50 @@ const Bertasbih = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+      </View>
+      <View style={{flex: 1}}>
+        <FlatGrid
+          style={{
+            marginTop: -30,
+            flex: 1,
+            textColor: state.darkMode ? '#F4F5F9' : '#181a20',
+          }}
+          itemDimension={130}
+          spacing={50}
+          data={menuList}
+          renderItem={({item}) => (
+            <TouchableOpacity
+              onPress={() => navigation.navigate(item.path)}
+              style={{
+                backgroundColor: state.darkMode ? '#F4F5F9' : '#181a20',
+                height: 150,
+                justifyContent: 'center',
+                spacing: 100,
+                alignItems: 'center',
+                width: 250,
+                borderRadius: 15,
+                elevation: 3,
+              }}>
+              <ImageBackground
+                source={item.image}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: 'bold',
+                    color: state.darkMode ? '#181a20' : '#F4F5F9',
+                  }}>
+                  {item.nama}
+                </Text>
+              </ImageBackground>
+            </TouchableOpacity>
+          )}
+        />
       </View>
     </View>
   );

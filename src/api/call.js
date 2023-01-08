@@ -1,4 +1,6 @@
 import {API} from './config';
+// import auth from '@react-native-firebase/auth';
+import {firebase} from '../firebase/config';
 
 export const login = async body => {
   try {
@@ -30,6 +32,17 @@ export const checkUser = async body => {
 export const register = async body => {
   try {
     console.log(body);
+
+    await firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then(response => {
+        const uid = response.user.uid;
+        body.uid = uid;
+      })
+      .catch(error => {
+        alert(error);
+      });
 
     const {data} = await API.post('/register', body);
     // const {data} = API.get('/test');

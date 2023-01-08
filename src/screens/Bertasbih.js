@@ -210,7 +210,7 @@ const Bertasbih = ({navigation}) => {
   const handleNextSound = () => {
     currentSound.sound.stop();
 
-    if (currentSound.id == 3) {
+    if (currentSound.id == 5) {
       return setCurrentSound(listSound[0]);
     }
 
@@ -221,7 +221,7 @@ const Bertasbih = ({navigation}) => {
     currentSound.sound.stop();
 
     if (currentSound.id == 1) {
-      return setCurrentSound(listSound[2]);
+      return setCurrentSound(listSound[4]);
     }
 
     setCurrentSound(listSound.find(item => item.id == currentSound.id - 1));

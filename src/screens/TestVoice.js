@@ -133,16 +133,16 @@ function VoiceTest() {
       <Text style={styles.welcome}>
         Welcome to React Native Voice recognized
       </Text>
-      <Text style={styles.welcome}>Counted : {counter}</Text>
+      <Text style={styles.welcome}>Suara total yang masuk : {counter}</Text>
 
       <Text style={styles.instructions}>
         Press the button and start speaking.
       </Text>
-      <Text style={styles.stat}>{`Started: ${started}`}</Text>
-      <Text style={styles.stat}>{`Recognized: ${recognized}`}</Text>
-      <Text style={styles.stat}>{`Volume: ${volume}`}</Text>
-      <Text style={styles.stat}>{`Error: ${error}`}</Text>
-      <Text style={styles.stat}>Results</Text>
+      <Text style={styles.stat}>{`Apakah bisa? ${started}`}</Text>
+      <Text style={styles.stat}>{`Suara Recognized: ${recognized}`}</Text>
+      <Text style={styles.stat}>{`Suara Volume: ${volume}`}</Text>
+      <Text style={styles.stat}>{`Error? ${error}`}</Text>
+      <Text style={styles.stat}>Hasilnya : </Text>
       {results.map((result, index) => {
         return (
           <Text key={`result-${index}`} style={styles.stat}>
@@ -150,7 +150,7 @@ function VoiceTest() {
           </Text>
         );
       })}
-      <Text style={styles.stat}>Partial Results</Text>
+      <Text style={styles.stat}>Partial Results : </Text>
       {partialResults.map((result, index) => {
         return (
           <Text key={`partial-result-${index}`} style={styles.stat}>

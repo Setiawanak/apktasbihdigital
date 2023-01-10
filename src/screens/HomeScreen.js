@@ -7,6 +7,10 @@ import {
   StatusBar,
   Image,
   ImageBackground,
+  Alert,
+  Modal,
+  Pressable,
+  Linking,
 } from 'react-native';
 import {Switch} from 'react-native-switch';
 import React, {useState} from 'react';
@@ -14,6 +18,10 @@ import {store} from '../context';
 import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
+import messaging from '@react-native-firebase/messaging';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import axios from 'axios';
+import {API} from '../api/config';
 
 const HomeScreen = ({navigation}) => {
   const menuList = [
@@ -39,11 +47,17 @@ const HomeScreen = ({navigation}) => {
     },
   ];
 
+  // console.log(firestore().collection('Users').get());
+
   // inisialisasi state
   const {state, dispatch} = store();
   const [searchText, setSearchText] = useState('');
   const [tempList, setTempList] = useState(menuList);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [timePicker, setTimePicker] = useState(false);
+  const [time, setTime] = useState(new Date(Date.now()));
 
+  console.log(state.user);
   // funtion filter searching menu
   function SearchFilterFunction(text) {
     //passing the inserted text in textinput
@@ -56,6 +70,24 @@ const HomeScreen = ({navigation}) => {
     setSearchText(text);
     setTempList(newData);
   }
+
+  const checkToken = async () => {
+    const fcm = await messaging().getToken();
+    const body = {
+      registrationToken: fcm,
+      message: `Ini adalah pengingat untuk jam ${time.getHours()} : ${time.getMinutes()}`,
+    };
+
+    API.post('notif', body)
+      .then(response => {
+        console.log(response);
+        setModalVisible(false);
+      })
+      .catch(error => {
+        console.log(error);
+        setModalVisible(false);
+      });
+  };
 
   return (
     <View
@@ -78,32 +110,51 @@ const HomeScreen = ({navigation}) => {
             />
           </TouchableOpacity>
 
-          <Switch
-            value={state.darkMode}
-            onValueChange={val =>
-              dispatch({type: 'SET_DARK_MODE', payload: val})
-            }
-            activeText={'On'}
-            inActiveText={'Off'}
-            circleSize={20}
-            circleBorderWidth={3}
-            backgroundActive={'#F4F5F9'}
-            backgroundInactive={'#181a20'}
-            circleActiveColor={'#181a20'}
-            circleInActiveColor={'#F4F5F9'}
-            changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
-            innerCircleStyle={{
-              alignItems: 'center',
-              justifyContent: 'center',
-            }} // style for inner animated circle for what you (may) be rendering inside the circle
-            outerCircleStyle={{}} // style for outer animated circle
-            renderActiveText={false}
-            renderInActiveText={false}
-            switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
-            switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
-            switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
-            switchBorderRadius={20} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
-          />
+          <View className="flex-row items-center space-x-2">
+            <Switch
+              value={state.darkMode}
+              onValueChange={val =>
+                dispatch({type: 'SET_DARK_MODE', payload: val})
+              }
+              activeText={'On'}
+              inActiveText={'Off'}
+              circleSize={20}
+              circleBorderWidth={3}
+              backgroundActive={'#F4F5F9'}
+              backgroundInactive={'#181a20'}
+              circleActiveColor={'#181a20'}
+              circleInActiveColor={'#F4F5F9'}
+              changeValueImmediately={true} // if rendering inside circle, change state immediately or wait for animation to complete
+              innerCircleStyle={{
+                alignItems: 'center',
+                justifyContent: 'center',
+              }} // style for inner animated circle for what you (may) be rendering inside the circle
+              outerCircleStyle={{}} // style for outer animated circle
+              renderActiveText={false}
+              renderInActiveText={false}
+              switchLeftPx={2} // denominator for logic when sliding to TRUE position. Higher number = more space from RIGHT of the circle to END of the slider
+              switchRightPx={2} // denominator for logic when sliding to FALSE position. Higher number = more space from LEFT of the circle to BEGINNING of the slider
+              switchWidthMultiplier={2} // multiplied by the `circleSize` prop to calculate total width of the Switch
+              switchBorderRadius={20} // Sets the border Radius of the switch slider. If unset, it remains the circleSize.
+            />
+
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <EnIcon
+                name="bell"
+                size={30}
+                color={state.darkMode ? 'white' : 'black'}
+              />
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={() => Linking.openURL('https://youtube.com')}>
+              <EnIcon
+                name="youtube"
+                size={30}
+                color={state.darkMode ? 'white' : 'black'}
+              />
+            </TouchableOpacity>
+          </View>
         </View>
 
         <Image
@@ -127,7 +178,7 @@ const HomeScreen = ({navigation}) => {
             textAlign: 'right',
             marginBottom: 20,
           }}>
-          HI {state.user?.nama_pentasbih} !
+          HI {state.user?.name} !
         </Text>
         <Text
           style={{
@@ -215,6 +266,131 @@ const HomeScreen = ({navigation}) => {
           )}
         />
       </View>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            marginTop: 22,
+          }}>
+          <View
+            style={{
+              margin: 20,
+              backgroundColor: 'white',
+              borderRadius: 20,
+              padding: 35,
+              alignItems: 'center',
+              shadowColor: '#000',
+              shadowOffset: {
+                width: 0,
+                height: 2,
+              },
+              shadowOpacity: 0.25,
+              shadowRadius: 4,
+              elevation: 5,
+              borderWidth: 1,
+            }}>
+            <Text
+              style={{
+                marginBottom: 20,
+                textAlign: 'center',
+                color: 'black',
+                fontWeight: 'bold',
+              }}>
+              Buat Pengingat
+            </Text>
+
+            <Text style={{textAlign: 'center', color: 'black'}}>Atur jam</Text>
+            <Pressable
+              style={[
+                {
+                  borderRadius: 20,
+                  padding: 10,
+                  elevation: 2,
+                  backgroundColor: 'gray',
+                  marginBottom: 10,
+                },
+                {},
+              ]}
+              onPress={() => setTimePicker(true)}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                  paddingHorizontal: 10,
+                }}>
+                {time.getHours().toString()} : {time.getMinutes().toString()}
+              </Text>
+            </Pressable>
+            {timePicker && (
+              <DateTimePicker
+                mode="time"
+                value={time}
+                is24Hour={true}
+                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                style={{
+                  width: 200,
+                  height: 50,
+                  marginTop: 20,
+                }}
+                onChange={(event, value) => {
+                  setTime(value);
+                  setTimePicker(false);
+                }}
+              />
+            )}
+            <Pressable
+              style={[
+                {
+                  borderRadius: 20,
+                  padding: 10,
+                  elevation: 2,
+                  backgroundColor: '#2196F3',
+                  marginVertical: 10,
+                },
+                {},
+              ]}
+              onPress={checkToken}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                Submit
+              </Text>
+            </Pressable>
+            <Pressable
+              style={[
+                {
+                  borderRadius: 20,
+                  padding: 10,
+                  elevation: 2,
+                  backgroundColor: 'red',
+                },
+                {},
+              ]}
+              onPress={() => setModalVisible(!modalVisible)}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontWeight: 'bold',
+                  textAlign: 'center',
+                }}>
+                Batal
+              </Text>
+            </Pressable>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 };

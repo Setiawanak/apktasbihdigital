@@ -27,10 +27,8 @@ const LoginScreen = () => {
   const [password, setPassword] = useState('');
 
   const handleSubmit = async () => {
-    console.log(email, password);
     const data = await login({email, password});
     if (data) {
-      await saveToken(data.id.toString());
       dispatch({type: 'LOGIN', payload: data});
     }
   };

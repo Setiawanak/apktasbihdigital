@@ -9,7 +9,9 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
+import {resetPassword} from '../api/call';
 
 const ForgetPassword = () => {
   {
@@ -22,6 +24,26 @@ const ForgetPassword = () => {
 
   const navigateToLoginScreen = () => {
     navigation.navigate('Login');
+  };
+
+  const onSubmit = async () => {
+    if (!name || !email) {
+      return Alert.alert('Harap lengkapi semua fielld!');
+    }
+
+    const [status, data] = await resetPassword(email);
+
+    if (!status) {
+      console.log(data.code);
+
+      if (data.code === 'auth/user-not-found') {
+        return Alert.alert('Gagal', 'Email anda tidak ditemukan!');
+      }
+    }
+    setEmail('');
+    setName('');
+
+    return Alert.alert('Sukses', 'Link telah dikirim ke email anda!');
   };
 
   return (
@@ -101,6 +123,7 @@ const ForgetPassword = () => {
 
           {/* BUTTON LOGIN */}
           <TouchableOpacity
+            onPress={onSubmit}
             style={{
               backgroundColor: '#0096FF',
               justifyContent: 'center',
@@ -110,7 +133,7 @@ const ForgetPassword = () => {
               borderRadius: 6,
             }}>
             <Text style={{color: '#FFFFFF', fontWeight: 'bold', fontSize: 18}}>
-              Lupa Password
+              Kirim
             </Text>
           </TouchableOpacity>
 

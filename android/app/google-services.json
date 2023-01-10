@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "7568062028",
+    "project_id": "e-count-tasbih-digital",
+    "storage_bucket": "e-count-tasbih-digital.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:7568062028:android:dbe681e6506b450d9866e9",
+        "android_client_info": {
+          "package_name": "com.apktasbihdigital"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "7568062028-isumqud6f9efaifacnk9ef9clncu39ln.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFZ8WTcAkUgXi9c15V5i1FAu2EUNd3Okc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "7568062028-isumqud6f9efaifacnk9ef9clncu39ln.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -251,10 +251,11 @@ const Bertasbih = ({navigation}) => {
     const createHistory = await reset({
       target,
       tercapai: currentTarget,
-      user_id: state.user.id,
+      email: state.user.email,
     });
     setTarget(0);
     setCurrentTarget(0);
+    setSubTarget(0);
   };
 
   return (

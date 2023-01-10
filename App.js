@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {
   Alert,
   Button,
+  Image,
   Linking,
   Text,
   TouchableOpacity,
@@ -34,6 +35,7 @@ import {
 } from '@react-navigation/drawer';
 import VoiceTest from './src/screens/TestVoice';
 import SplashScreen from './src/screens/SplashScreen';
+import messaging from '@react-native-firebase/messaging';
 
 const Drawer = createDrawerNavigator();
 const NativeStack = createNativeStackNavigator();
@@ -122,7 +124,17 @@ const LoggedStack = () => {
         }}
       />
 
-      <NativeStack.Screen component={Bertasbih} name="Bertasbih" />
+      <NativeStack.Screen
+        component={Bertasbih}
+        name="Bertasbih"
+        options={{
+          headerShown: false,
+          headerStyle: {
+            backgroundColor: state.darkMode ? '#181a20' : '#F4F5F9',
+          },
+          headerTintColor: state.darkMode ? '#F4F5F9' : '#181a20',
+        }}
+      />
       <NativeStack.Screen component={Berdoa} name="Berdoa" />
       <NativeStack.Screen component={TestVoice} name="TestVoice" />
       <NativeStack.Screen
@@ -158,6 +170,27 @@ function MyDrawer() {
               backgroundColor: state.darkMode ? 'black' : 'white',
             }}
             {...props}>
+            <View className="mb-5 -mt-2">
+              <Image
+                source={require('./src/images/splashscreen.png')}
+                className="w-full "
+                style={{
+                  height: 150,
+                }}
+              />
+              <Text
+                style={{
+                  textAlign: 'center',
+                }}>
+                Tasbih Digital Online
+              </Text>
+              <Text
+                style={{
+                  textAlign: 'center',
+                }}>
+                Versi 0.0.1
+              </Text>
+            </View>
             <DrawerItemList {...props} />
             <DrawerItem
               labelStyle={{
@@ -198,6 +231,21 @@ function MyDrawer() {
 
 const Routes = () => {
   const {state, dispatch} = store();
+  useEffect(() => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('REMOTE MESSAGE', remoteMessage);
+    });
+
+    const unsubs = messaging().onMessage(async remoteMessage => {
+      console.log(remoteMessage);
+      Alert.alert(
+        remoteMessage.notification.title,
+        remoteMessage.notification.body,
+      );
+    });
+
+    return unsubs;
+  }, []);
 
   if (state.splash) {
     return <SplashScreen />;

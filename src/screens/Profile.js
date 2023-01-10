@@ -17,20 +17,25 @@ import {getHistory} from '../api/call';
 import {FlatList} from 'react-native-gesture-handler';
 import EnIcon from 'react-native-vector-icons/Entypo';
 import COLORS, {darkModeColor} from '../conts/colors';
+import {useIsFocused} from '@react-navigation/native';
 
 const Profile = ({navigation}) => {
   const {state, dispatch} = store();
+  const isFocused = useIsFocused();
   const {container, content} = darkModeColor();
   const [data, setData] = useState([]);
   const getList = async () => {
-    const history = await getHistory(state.user.id);
+    const history = await getHistory(state.user.email);
 
     setData(history);
   };
 
   useEffect(() => {
+    console.log(isFocused);
     getList();
-  }, [navigation.isFocused()]);
+
+    return () => setData([]);
+  }, [isFocused]);
 
   const onShare = async val => {
     try {
@@ -85,7 +90,7 @@ const Profile = ({navigation}) => {
                 fontWeight: 'bold',
                 textAlign: 'left',
               }}>
-              HI {state.user.nama_pentasbih} !
+              HI {state?.user?.name} !
             </Text>
             <Text
               style={{
@@ -199,16 +204,17 @@ const Profile = ({navigation}) => {
             </View>
             <View>
               <Text style={{fontSize: 18, color: 'black'}}>
-                {item.tercapai}x Bertasbih dari target {item.target}x
+                {item._data.tercapai}x Bertasbih dari target {item._data.target}
+                x
               </Text>
               <Text style={{fontWeight: '400', fontSize: 18, color: 'black'}}>
-                {item.tanggal} - {item.waktu}
+                {item._data.tanggal} - {item._data.waktu}
               </Text>
             </View>
             <TouchableOpacity
               onPress={() =>
                 onShare(
-                  `${item.tercapai}x Bertasbih dari target ${item.target}x, jam ${item.waktu} pada tanggal ${item.tanggal}`,
+                  `${item._data.tercapai}x Bertasbih dari target ${item._data.target}x, jam ${item._data.waktu} pada tanggal ${item._data.tanggal}`,
                 )
               }>
               <Icon name="paper-plane" size={20} color="black" />

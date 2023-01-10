@@ -35,13 +35,13 @@ const Bertasbih = ({navigation}) => {
   const menuList = [
     {
       nama: 'Dzikir Setelah Shalat',
-      image: require('../images/DzikirSetShalat.png'),
+      image: require('../images/dzikirsetshalat.png'),
       path: 'DzikirSetShalat',
     },
     {
       nama: 'Doa Setelah Dzikir',
-      image: require('../images/DoaSetShalat.png'),
-      path: 'DoaSetShalat',
+      image: require('../images/doasetdzikir.png'),
+      path: 'DoaSetDzikir',
     },
     {
       nama: 'Doa Harian',
@@ -75,7 +75,7 @@ const Bertasbih = ({navigation}) => {
               width: '15%',
             }}>
             <TouchableOpacity>
-              <EnIcon name="bell" size={20} color="#FFFFFF" />
+              <EnIcon name="note-text-outline" size={20} color="#FFFFFF" />
             </TouchableOpacity>
             <TouchableOpacity>
               <EnIcon name="dots-three-horizontal" size={20} color="#FFFFFF" />
@@ -83,15 +83,12 @@ const Bertasbih = ({navigation}) => {
           </View>
         </View>
       </View>
-      <View style={{flex: 1}}>
+      <View>
         <FlatGrid
           style={{
-            marginTop: -30,
-            flex: 1,
             textColor: state.darkMode ? '#F4F5F9' : '#181a20',
           }}
-          itemDimension={130}
-          spacing={50}
+          spacing={25}
           data={menuList}
           renderItem={({item}) => (
             <TouchableOpacity
@@ -100,9 +97,8 @@ const Bertasbih = ({navigation}) => {
                 backgroundColor: state.darkMode ? '#F4F5F9' : '#181a20',
                 height: 150,
                 justifyContent: 'center',
-                spacing: 100,
                 alignItems: 'center',
-                width: 250,
+                width: 150,
                 borderRadius: 15,
                 elevation: 3,
               }}>
@@ -116,7 +112,8 @@ const Bertasbih = ({navigation}) => {
                 }}>
                 <Text
                   style={{
-                    fontSize: 20,
+                    fontSize: 16,
+                    textAlign: 'center',
                     fontWeight: 'bold',
                     color: state.darkMode ? '#181a20' : '#F4F5F9',
                   }}>

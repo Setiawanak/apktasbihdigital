@@ -1,5 +1,6 @@
 import {createContext, useContext, useReducer} from 'react';
 import {deleteToken} from '../hooks';
+import auth from '@react-native-firebase/auth';
 
 export const UserContext = createContext();
 export const store = () => useContext(UserContext);
@@ -23,7 +24,8 @@ const UserReducer = (state, action) => {
       user: payload,
     }),
     LOGOUT: async () => {
-      await deleteToken();
+      await auth().signOut();
+
       return {
         ...state,
         isLogin: false,

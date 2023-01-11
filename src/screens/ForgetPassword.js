@@ -103,6 +103,7 @@ const ForgetPassword = () => {
               elevation: 2,
               marginTop: 20,
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Nama Anda!"
             value={name}
           />
@@ -117,6 +118,7 @@ const ForgetPassword = () => {
               elevation: 2,
               marginTop: 20,
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Email Anda!"
             value={email}
           />

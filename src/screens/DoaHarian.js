@@ -11,7 +11,7 @@ import axios from 'axios';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkModeColor} from '../conts/colors';
 
-const BASE_URL = 'https://equran.id/api/';
+const BASE_URL = 'https://doa-doa-api-ahmadramadhan.fly.dev';
 
 const Alquran = ({navigation}) => {
   const {container, content} = darkModeColor();
@@ -22,46 +22,50 @@ const Alquran = ({navigation}) => {
   const [searchText, setSearchText] = useState('');
 
   const Item = ({item}) => (
-    <TouchableOpacity
-      className="m-2 border p-5 rounded-xl border-gray-400"
-      onPress={() =>
-        navigation.navigate('DetailSurah', {
-          url: `https://equran.id/api/surat/${item.nomor}`,
-        })
-      }>
+    <View className="m-2 border border-gray-400 p-5 rounded-xl">
       <View className="">
-        <View className="flex justify-between">
+        <View className="flex-row w-full justify-between mb-4">
           <Text
-            className="text-xl font-bold "
             style={{
               color: content,
-            }}>
-            {item.nomor}
-          </Text>
-          <Text
-            className="text-xl font-bold "
-            style={{
-              color: content,
-            }}>
-            {item.nama}
+            }}
+            className="text-2xl font-bold">
+            {item.id}
           </Text>
           <Text
             style={{
               color: content,
             }}
-            className="text-xl font-bold">
-            {item.nama_latin} - {item.arti}
+            className="text-2xl font-bold">
+            {item.doa}
           </Text>
         </View>
+
+        <Text
+          style={{
+            color: content,
+          }}
+          className="text-2xl my-3">
+          {item.ayat}
+        </Text>
+
+        <Text
+          style={{
+            color: content,
+          }}
+          className="text-xl ">
+          {item.artinya}
+        </Text>
         <View></View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 
   const getData = () => {
     axios
-      .get(`${BASE_URL}surat`)
+      .get(`${BASE_URL}/api`)
       .then(res => {
+        console.log(res.data);
         setSurah(res.data);
         setTempSurah(res.data);
       })
@@ -72,9 +76,7 @@ const Alquran = ({navigation}) => {
     //passing the inserted text in textinput
     const newData = tempSurah.filter(function (item) {
       //applying filter for the inserted text in search bar
-      const itemData = item.nama_latin
-        ? item.nama_latin.toUpperCase()
-        : ''.toUpperCase();
+      const itemData = item.doa ? item.doa.toUpperCase() : ''.toUpperCase();
       const textData = text.toUpperCase();
       return itemData.indexOf(textData) > -1;
     });
@@ -102,6 +104,7 @@ const Alquran = ({navigation}) => {
           style={{
             color: 'black',
           }}
+          placeholderTextColor="black"
           placeholder="Cari nama surah"
           value={searchText}
           onChangeText={text => SearchFilterFunction(text)}

@@ -43,7 +43,7 @@ const Bertasbih = ({navigation}) => {
 
   const [currentTarget, setCurrentTarget] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
-  const [clickMode, setClickMode] = useState(false);
+  const [clickMode, setClickMode] = useState('vibrate');
 
   const listSound = [
     {
@@ -99,12 +99,24 @@ const Bertasbih = ({navigation}) => {
   ];
 
   const [currentSound, setCurrentSound] = useState(listSound[0]);
-  const tickSound = new Sound('tick.mp3', Sound.MAIN_BUNDLE, error => {
-    if (error) {
-      console.log('failed to load the sound', error);
-      return;
-    }
-  });
+  // const tickSound = new Sound('tick.mp3', Sound.MAIN_BUNDLE, error => {
+  //   if (error) {
+  //     console.log('failed to load the sound', error);
+  //     tickSound.reset();
+  //     return;
+  //   }
+  // });
+  const tickSound = new Sound(
+    require('../images/tick.mp3'),
+    Sound.MAIN_BUNDLE,
+    error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        tickSound.reset();
+        return;
+      }
+    },
+  );
 
   useEffect(() => {
     async function get() {
@@ -233,9 +245,9 @@ const Bertasbih = ({navigation}) => {
       setSubTarget(0);
     }
 
-    if (clickMode) {
+    if (clickMode === 'vibrate') {
       Vibration.vibrate(100);
-    } else {
+    } else if (clickMode === 'tick') {
       tickSound.play();
     }
 
@@ -282,9 +294,28 @@ const Bertasbih = ({navigation}) => {
               alignItems: 'center',
               width: '20%',
             }}>
-            <TouchableOpacity onPress={() => setClickMode(prev => !prev)}>
+            <TouchableOpacity
+              onPress={() =>
+                setClickMode(prev => {
+                  if (prev == 'vibrate') {
+                    return 'tick';
+                  }
+
+                  if (prev == 'tick') {
+                    return 'silent';
+                  }
+
+                  return 'vibrate';
+                })
+              }>
               <MCIcon
-                name={clickMode ? 'vibrate' : 'volume-high'}
+                name={
+                  clickMode == 'vibrate'
+                    ? 'vibrate'
+                    : clickMode == 'tick'
+                    ? 'volume-high'
+                    : 'volume-mute'
+                }
                 size={20}
                 color="#FFFFFF"
               />
@@ -426,7 +457,7 @@ const Bertasbih = ({navigation}) => {
         }}>
         <View className="p-5">
           <View className="flex-row justify-between items-center mb-6">
-            <Text className="text-lg font-bold">
+            <Text className="text-lg font-bold text-black">
               Atur target untuk hari ini
             </Text>
             <TouchableOpacity onPress={() => setModalVisible(false)}>
@@ -439,6 +470,9 @@ const Bertasbih = ({navigation}) => {
               className="border  rounded-lg px-2"
               placeholder="Masukan Nama Anda!"
               value={target.toString()}
+              style={{
+                color: 'black',
+              }}
             />
             <TouchableOpacity
               onPress={() => setModalVisible(false)}

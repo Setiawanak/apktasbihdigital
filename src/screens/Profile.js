@@ -184,7 +184,7 @@ const Profile = ({navigation}) => {
         </Text>
       </View>
       <FlatList
-        data={data}
+        data={data.reverse()}
         ItemSeparatorComponent={<View className="my-2" />}
         renderItem={({item}) => (
           <View

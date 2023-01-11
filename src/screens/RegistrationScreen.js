@@ -49,9 +49,6 @@ const RegistrationScreen = ({navigation}) => {
     }
 
     Alert.alert(alert.title, alert.message);
-    if (submit) {
-      dispatch({type: 'LOGIN', payload: submit});
-    }
   };
 
   return (
@@ -97,6 +94,7 @@ const RegistrationScreen = ({navigation}) => {
               marginTop: 20,
               color: 'black',
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Nama Anda!"
             value={name}
           />
@@ -112,6 +110,7 @@ const RegistrationScreen = ({navigation}) => {
               marginTop: 20,
               color: 'black',
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Email Anda!"
             value={email}
           />
@@ -127,6 +126,7 @@ const RegistrationScreen = ({navigation}) => {
               marginTop: 20,
               color: 'black',
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Password Anda!"
             value={Password}
           />

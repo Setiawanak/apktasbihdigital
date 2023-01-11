@@ -46,6 +46,7 @@ export const register = async body => {
     console.log(body);
     await firestore().collection('users').doc(body.email).set(body);
 
+    firebase.auth().signOut();
     // const {data} = API.get('/test');
     return body;
   } catch (error) {
@@ -79,7 +80,6 @@ export const getHistory = async body => {
       .collection('users_history')
       // Filter results
       .where('email', '==', body)
-      .orderBy('tanggal', 'desc')
       .get();
 
     console.log(data.docs);

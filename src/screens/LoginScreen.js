@@ -80,6 +80,7 @@ const LoginScreen = () => {
               marginTop: 20,
               color: 'black',
             }}
+            placeholderTextColor="black"
             placeholder="Masukan Email Anda!"
             value={email}
           />
@@ -96,6 +97,7 @@ const LoginScreen = () => {
               marginTop: 20,
             }}
             secureTextEntry
+            placeholderTextColor="black"
             placeholder="Masukan Password Anda!"
             value={password}
           />

@@ -6,9 +6,11 @@ import {
   StyleSheet,
   Text,
   StatusBar,
+  TouchableOpacity,
 } from 'react-native';
 import {darkModeColor} from '../conts/colors';
-
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import Sound from 'react-native-sound';
 const DATA = [
   {
     id: '1',
@@ -90,22 +92,79 @@ const DATA = [
 
 const App = () => {
   const {container, content} = darkModeColor();
-
+  const sound = new Sound(
+    require('../images/doasetelahdzikir.mp3'),
+    Sound.MAIN_BUNDLE,
+    error => {
+      if (error) {
+        console.log('failed to load the sound', error);
+        return;
+      }
+    },
+  );
+  const onPlayPress = () => {
+    sound.play(() => {
+      console.log('Played');
+    });
+  };
   // const renderItem = ({item}) => <Item title={item.title} />;
 
   const Item = ({item}) => (
-    <View style={[styles.item, {}]} className="space-y-3">
+    <View
+      style={[styles.item, {}]}
+      className="space-y-3  border rounded-lg border-gray-500">
       <View className="flex-row gap-2 justify-between">
-        <Text>{item.id}.</Text>
-        <Text className="text-xl">{item.title}</Text>
+        <Text
+          style={{
+            color: content,
+          }}>
+          {item.id}.
+        </Text>
+        <Text
+          style={{
+            color: content,
+          }}
+          className="text-xl">
+          {item.title}
+        </Text>
       </View>
-      <Text>{item.latin}</Text>
+      <Text
+        style={{
+          color: content,
+        }}>
+        {item.latin}
+      </Text>
     </View>
   );
 
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: container}]}>
-      <View className="flex-row justify-between my-2"></View>
+      <View className="flex-row gap-3 justify-center items-center my-3">
+        <TouchableOpacity
+          onPress={onPlayPress}
+          style={{
+            backgroundColor: '#6B6565',
+            width: 40,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+          }}>
+          <Icon name="play" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => sound.pause(() => console.log('paused'))}
+          style={{
+            backgroundColor: '#6B6565',
+            width: 40,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+          }}>
+          <Icon name="pause" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+      </View>
       <FlatList data={DATA} renderItem={Item} keyExtractor={item => item.id} />
     </SafeAreaView>
   );

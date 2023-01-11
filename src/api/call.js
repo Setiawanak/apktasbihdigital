@@ -80,6 +80,8 @@ export const getHistory = async body => {
       .collection('users_history')
       // Filter results
       .where('email', '==', body)
+      .orderBy('tanggal', 'desc')
+      .orderBy('waktu', 'desc')
       .get();
 
     console.log(data.docs);

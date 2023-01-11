@@ -1,147 +1,142 @@
 import {
-  View,
+  StyleSheet,
   Text,
   FlatList,
-  SafeAreaView,
-  TextInput,
   TouchableOpacity,
+  View,
+  TextInput,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import {darkModeColor} from '../conts/colors';
-import Sound from 'react-native-sound';
-import Icon from 'react-native-vector-icons/FontAwesome5';
 
-const DetailSurah = ({route}) => {
-  const [ayat, setAyat] = useState([]);
-  const [loading, setLoading] = useState(true);
+const BASE_URL = 'https://equran.id/api/';
+
+const Alquran = ({navigation}) => {
   const {container, content} = darkModeColor();
-  let [audio, setAudio] = useState(null);
-  Sound.setCategory('Playback');
+
+  const [surah, setSurah] = useState([]);
+  const [tempSurah, setTempSurah] = useState([]);
+
+  const [searchText, setSearchText] = useState('');
+
   const Item = ({item}) => (
-    <View className="m-2 border border-gray-400 p-5 rounded-xl">
+    <TouchableOpacity
+      className="m-2 border p-5 rounded-xl border-gray-400"
+      onPress={() =>
+        navigation.navigate('DetailSurah', {
+          url: `https://equran.id/api/surat/${item.nomor}`,
+        })
+      }>
       <View className="">
-        <View className="">
+        <View className="flex justify-between">
           <Text
+            className="text-xl font-bold "
             style={{
               color: content,
-            }}
-            className="text-xl font-bold">
+            }}>
             {item.nomor}
           </Text>
           <Text
+            className="text-xl font-bold "
             style={{
               color: content,
-            }}
-            className="text-xl font-bold">
-            {item.ar}
+            }}>
+            {item.nama}
           </Text>
           <Text
             style={{
               color: content,
             }}
             className="text-xl font-bold">
-            {item.tr}
-          </Text>
-          <Text
-            style={{
-              color: content,
-            }}
-            className="text-xl font-bold"></Text>
-          <Text
-            style={{
-              color: content,
-            }}
-            className="text-xl font-bold">
-            {item.idn}
+            {item.nama_latin} - {item.arti}
           </Text>
         </View>
         <View></View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
+
   const getData = () => {
     axios
-      .get(route.params.url)
+      .get(`${BASE_URL}surat`)
       .then(res => {
-        console.log(res);
-        setAyat(res.data);
-        setAudio(
-          new Sound(res.data.audio, undefined, error => {
-            if (error) {
-              console.log('failed to load the sound', error);
-              return;
-            }
-          }),
-        );
-        setLoading(false);
+        setSurah(res.data);
+        setTempSurah(res.data);
       })
-      .catch(err => {
-        console.log(err.response);
-        setLoading(false);
-      });
+      .catch(err => console.log(err.response));
   };
 
+  function SearchFilterFunction(text) {
+    //passing the inserted text in textinput
+    const newData = tempSurah.filter(function (item) {
+      //applying filter for the inserted text in search bar
+      const itemData = item.nama_latin
+        ? item.nama_latin.toUpperCase()
+        : ''.toUpperCase();
+      const textData = text.toUpperCase();
+      return itemData.indexOf(textData) > -1;
+    });
+    setSearchText(text);
+    setSurah(newData);
+  }
+  // function yang dijalanin compenent diakses (Ketika dibuka dan ditutup)
   useEffect(() => {
     getData();
   }, []);
 
-  if (loading)
-    return (
-      <View>
-        <Text>Loading....</Text>
-      </View>
-    );
-
-  const onPlayPress = () => {
-    console.log(audio);
-    audio.play(() => {
-      console.log('Played');
-    });
-  };
-
   return (
     <SafeAreaView
-      className="flex-1 pt-5"
       style={{
+        flex: 1,
         backgroundColor: container,
       }}>
-      <View className="flex-row justify-evenly items-center">
-        <Text className="text-lg font-bold text-black">{ayat.nama_latin}</Text>
-        <View className="flex-row gap-3">
-          <TouchableOpacity
-            onPress={onPlayPress}
-            style={{
-              backgroundColor: '#6B6565',
-              width: 40,
-              height: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 50,
-            }}>
-            <Icon name="play" size={20} color="#FFFFFF" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => audio.pause(() => console.log('paused'))}
-            style={{
-              backgroundColor: '#6B6565',
-              width: 40,
-              height: 40,
-              justifyContent: 'center',
-              alignItems: 'center',
-              borderRadius: 50,
-            }}>
-            <Icon name="pause" size={20} color="#FFFFFF" />
-          </TouchableOpacity>
-        </View>
+      <View
+        className="h-10 w-full  my-5"
+        style={{
+          backgroundColor: container,
+        }}>
+        <TextInput
+          className="border rounded-2xl mx-4 px-3 bg-gray-200 py-2"
+          style={{
+            color: 'black',
+          }}
+          placeholder="Cari nama surah"
+          value={searchText}
+          onChangeText={text => SearchFilterFunction(text)}
+        />
       </View>
       <FlatList
-        data={ayat.ayat}
-        keyExtractor={(item, index) => index}
+        data={surah}
+        keyExtractor={(item, index) => index.toString()}
         renderItem={Item}
+        contentContainerStyle={{
+          backgroundColor: container,
+        }}
       />
     </SafeAreaView>
   );
 };
 
-export default DetailSurah;
+export default Alquran;
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+  wrapperNumber: {
+    alignItems: 'center',
+    margin: 5,
+  },
+  wrappersurah: {
+    flexDirection: 'row',
+    margin: 8,
+  },
+  wrapperNamesurah: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: 5,
+  },
+});

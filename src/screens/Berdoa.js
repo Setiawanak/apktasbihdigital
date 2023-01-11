@@ -18,6 +18,7 @@ import {store} from '../context';
 import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
+import MCIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Sound from 'react-native-sound';
 import {reset} from '../api/call';
@@ -36,12 +37,12 @@ const Bertasbih = ({navigation}) => {
     {
       nama: 'Dzikir Setelah Shalat',
       image: require('../images/dzikirsetshalat.png'),
-      path: 'DzikirSetShalat',
+      path: 'Dzikir',
     },
     {
       nama: 'Doa Setelah Dzikir',
       image: require('../images/doasetdzikir.png'),
-      path: 'DoaSetDzikir',
+      path: 'DoaDzikir',
     },
     {
       nama: 'Doa Harian',
@@ -69,16 +70,17 @@ const Bertasbih = ({navigation}) => {
           </TouchableOpacity>
           <View
             style={{
-              flexDirection: 'row',
+              flexDirection: 'column',
               justifyContent: 'space-between',
               alignItems: 'center',
               width: '15%',
             }}>
-            <TouchableOpacity>
-              <EnIcon name="note-text-outline" size={20} color="#FFFFFF" />
-            </TouchableOpacity>
-            <TouchableOpacity>
-              <EnIcon name="dots-three-horizontal" size={20} color="#FFFFFF" />
+            <TouchableOpacity onPress={() => setModalVisible(true)}>
+              <MCIcon
+                name="note-text-outline"
+                size={30}
+                color={state.darkMode ? 'black' : 'white'}
+              />
             </TouchableOpacity>
           </View>
         </View>

@@ -75,12 +75,14 @@ const Bertasbih = ({navigation}) => {
               alignItems: 'center',
               width: '15%',
             }}>
-            <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <MCIcon
-                name="note-text-outline"
-                size={30}
-                color={state.darkMode ? 'black' : 'white'}
-              />
+            <TouchableOpacity
+              onPress={() =>
+                Alert.alert(
+                  'Menu List Berdoa',
+                  '1: Dzikir Setelah Shalat\n2: Doa Setelah Dzikir\n3: Doa harian :',
+                )
+              }>
+              <MCIcon name="note-text-outline" size={30} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         </View>

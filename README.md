@@ -17,7 +17,7 @@ Development Progress Des 2022
 
 ## Current app version
 
-`1.8.2` - 06/01/2023 23:46
+Beta Version `1.8.1` - 10/01/2023 23:46
 
 _Starting from version 1.0.0, versionName will start following **Semantic version renaming** represents by this **major.minor.point** format._
 

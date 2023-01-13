@@ -126,6 +126,7 @@ const RegistrationScreen = ({navigation}) => {
               marginTop: 20,
               color: 'black',
             }}
+            secureTextEntry
             placeholderTextColor="black"
             placeholder="Masukan Password Anda!"
             value={Password}

@@ -18,6 +18,7 @@ import {store} from '../context';
 import {FlatGrid} from 'react-native-super-grid';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import EnIcon from 'react-native-vector-icons/Entypo';
+import McIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import messaging from '@react-native-firebase/messaging';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
@@ -139,8 +140,8 @@ const HomeScreen = ({navigation}) => {
             />
 
             <TouchableOpacity onPress={() => setModalVisible(true)}>
-              <EnIcon
-                name="bell"
+              <McIcon
+                name="bell-ring-outline"
                 size={30}
                 color={state.darkMode ? 'white' : 'black'}
               />
@@ -225,7 +226,7 @@ const HomeScreen = ({navigation}) => {
           }}></View>
         <FlatGrid
           style={{
-            marginTop: -30,
+            marginTop: -20,
             flex: 1,
             textColor: state.darkMode ? '#F4F5F9' : '#181a20',
           }}

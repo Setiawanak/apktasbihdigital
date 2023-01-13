@@ -13,7 +13,7 @@ import {darkModeColor} from '../conts/colors';
 
 const BASE_URL = 'https://doa-doa-api-ahmadramadhan.fly.dev';
 
-const Alquran = ({navigation}) => {
+const DoaHarian = ({navigation}) => {
   const {container, content} = darkModeColor();
 
   const [surah, setSurah] = useState([]);
@@ -47,6 +47,22 @@ const Alquran = ({navigation}) => {
           }}
           className="text-2xl my-3">
           {item.ayat}
+        </Text>
+
+        <Text
+          style={{
+            color: content,
+          }}
+          className="text-lg my-3">
+          ({item.latin} )
+        </Text>
+
+        <Text
+          style={{
+            color: content,
+          }}
+          className="text-xl ">
+          Artinya:
         </Text>
 
         <Text
@@ -105,7 +121,7 @@ const Alquran = ({navigation}) => {
             color: 'black',
           }}
           placeholderTextColor="black"
-          placeholder="Cari nama surah"
+          placeholder="Cari doa harian"
           value={searchText}
           onChangeText={text => SearchFilterFunction(text)}
         />
@@ -122,7 +138,7 @@ const Alquran = ({navigation}) => {
   );
 };
 
-export default Alquran;
+export default DoaHarian;
 
 const styles = StyleSheet.create({
   wrapper: {

@@ -57,7 +57,7 @@ const Alquran = ({navigation}) => {
               color: content,
             }}
             className="text-xl font-bold">
-            Yang artinya : {item.arti}
+            Artinya : {item.arti}
           </Text>
         </View>
         <View></View>

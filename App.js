@@ -36,6 +36,8 @@ import {
 import VoiceTest from './src/screens/TestVoice';
 import SplashScreen from './src/screens/SplashScreen';
 import messaging from '@react-native-firebase/messaging';
+import DzikirPagi from './src/screens/DzikirPagi';
+import DzikirPetang from './src/screens/DzikirPetang';
 import DzikirSetShalat from './src/screens/DzikirSetShalat';
 import DoaSetDzikir from './src/screens/DoaSetDzikir';
 import DoaHarian from './src/screens/DoaHarian';
@@ -151,6 +153,8 @@ const LoggedStack = () => {
           headerTintColor: state.darkMode ? '#F4F5F9' : '#181a20',
         }}
       />
+      <NativeStack.Screen component={DzikirPagi} name="DzikirPagi" />
+      <NativeStack.Screen component={DzikirPetang} name="DzikirPetang" />
       <NativeStack.Screen component={DzikirSetShalat} name="Dzikir" />
       <NativeStack.Screen component={DoaSetDzikir} name="DoaDzikir" />
       <NativeStack.Screen component={DoaHarian} name="DoaHarian" />

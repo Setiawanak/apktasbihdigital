@@ -328,7 +328,7 @@ const Bertasbih = ({navigation}) => {
                   '↩️: UNTUK HAPUS SEMUA\n⏹ : UNTUK MENGHENTIKAN SUARA\n🎙️: UNTUK MENGHITUNG SUARA MEMAKAI VOICE\n▶️: UNTUK MEMULAI SUARA\n📝: UNTUK MEMULAI TARGET',
                 )
               }>
-              <MCIcon name="note-text-outline" size={20} color="#FFFFFF" />
+              <MCIcon name="information-outline" size={25} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         </View>

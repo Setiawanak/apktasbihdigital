@@ -35,6 +35,16 @@ const Bertasbih = ({navigation}) => {
 
   const menuList = [
     {
+      nama: 'Dzikir Pagi',
+      image: require('../images/dzikirpagi.png'),
+      path: 'DzikirPagi',
+    },
+    {
+      nama: 'Dzikir Petang',
+      image: require('../images/dzikirpetang.png'),
+      path: 'DzikirPetang',
+    },
+    {
       nama: 'Dzikir Setelah Shalat',
       image: require('../images/dzikirsetshalat.png'),
       path: 'Dzikir',
@@ -82,7 +92,7 @@ const Bertasbih = ({navigation}) => {
                   '1: Dzikir Setelah Shalat\n2: Doa Setelah Dzikir\n3: Doa harian :',
                 )
               }>
-              <MCIcon name="note-text-outline" size={30} color="#FFFFFF" />
+              <MCIcon name="information-outline" size={30} color="#FFFFFF" />
             </TouchableOpacity>
           </View>
         </View>

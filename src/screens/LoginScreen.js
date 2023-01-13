@@ -9,6 +9,7 @@ import {
   StatusBar,
   TextInput,
   ScrollView,
+  Alert,
 } from 'react-native';
 import {login} from '../api/call';
 import {store} from '../context/index';
@@ -19,6 +20,7 @@ const LoginScreen = () => {
   {
     /* INISIALISASI CODE */
   }
+
   const navigation = useNavigation();
   const {state, dispatch} = store();
   const {container, content} = darkModeColor();
@@ -28,6 +30,7 @@ const LoginScreen = () => {
 
   const handleSubmit = async () => {
     const data = await login({email, password});
+
     if (data) {
       dispatch({type: 'LOGIN', payload: data});
     }

@@ -1,4 +1,12 @@
-import React from 'react';
+import React, {
+  Component,
+  useState,
+  UseState,
+  useRef,
+  useEffect,
+  useMemo,
+  useCallback,
+} from 'react';
 import {
   SafeAreaView,
   View,
@@ -102,6 +110,9 @@ const App = () => {
       }
     },
   );
+  useEffect(() => {
+    return () => sound.stop();
+  }, []);
   const onPlayPress = () => {
     sound.play(() => {
       console.log('Played');
@@ -140,6 +151,14 @@ const App = () => {
   return (
     <SafeAreaView style={[styles.container, {backgroundColor: container}]}>
       <View className="flex-row gap-3 justify-center items-center my-3">
+        <Text
+          style={{
+            color: content,
+            fontSize: 18,
+            fontWeight: 'bold',
+          }}>
+          Doa Setelah Dzikir
+        </Text>
         <TouchableOpacity
           onPress={onPlayPress}
           style={{
@@ -163,6 +182,18 @@ const App = () => {
             borderRadius: 50,
           }}>
           <Icon name="pause" size={20} color="#FFFFFF" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => sound.stop(() => console.log('stop'))}
+          style={{
+            backgroundColor: '#6B6565',
+            width: 40,
+            height: 40,
+            justifyContent: 'center',
+            alignItems: 'center',
+            borderRadius: 50,
+          }}>
+          <Icon name="stop" size={20} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
       <FlatList data={DATA} renderItem={Item} keyExtractor={item => item.id} />

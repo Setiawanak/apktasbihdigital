@@ -23,7 +23,7 @@ import EvilIcon from 'react-native-vector-icons/EvilIcons';
 import Sound from 'react-native-sound';
 import {reset} from '../api/call';
 
-const Bertasbih = ({navigation}) => {
+const Berdoa = ({navigation}) => {
   const [tempList, setTempList] = useState(menuList);
 
   const [searchText, setSearchText] = useState('');
@@ -142,4 +142,4 @@ const Bertasbih = ({navigation}) => {
   );
 };
 
-export default Bertasbih;
+export default Berdoa;

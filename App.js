@@ -191,12 +191,14 @@ function MyDrawer() {
               <Text
                 style={{
                   textAlign: 'center',
+                  color: state.darkMode ? 'white' : 'black',
                 }}>
                 Tasbih Digital Online
               </Text>
               <Text
                 style={{
                   textAlign: 'center',
+                  color: state.darkMode ? 'white' : 'black',
                 }}>
                 Versi 0.0.1
               </Text>

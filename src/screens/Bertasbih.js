@@ -79,7 +79,7 @@ const Bertasbih = ({navigation}) => {
     {
       id: 4,
       title: 'استغفر الله العظيم',
-      sound: new Sound('allahuakbar.mp3', Sound.MAIN_BUNDLE, error => {
+      sound: new Sound('astagfirullah.mp3', Sound.MAIN_BUNDLE, error => {
         if (error) {
           console.log('failed to load the sound', error);
           return;

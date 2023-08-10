@@ -6,8 +6,9 @@
 E-Counter-like app . This project is developed for my Bachelor's Degree Thesis. **Code in React Native, MySQL and Javascript (For Android)**
 
 ## DEVELOPMENT STATUS
+**START DEVELOP**
 
-Development started From Okt 2020 (UAS Semester 9)
+Development started From Changed project and final talk to build this from Okt 2020 (UAS Semester 9)
 
 Development Paused Feb 2022 - Jun 2022
 

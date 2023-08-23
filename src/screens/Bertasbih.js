@@ -434,7 +434,7 @@ const Bertasbih = ({navigation}) => {
           </View>
 
           <Text className="text-white text-xl text-center">
-            Target : {subTarget} / {target}
+            Target : Dari {subTarget} / {target}
           </Text>
 
           <View className="justify-center mt-10 items-center">

@@ -32,4 +32,4 @@ Example:
 ![1599723676714](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356594573412/1.jpeg)
 ![1599723696123](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356351311932/6.jpeg)
 
-https://www.figma.com/file/RFdHVK7qpdUOlhj1SiMCR9/Apk-Tasbih-Online-Digital?type=design&mode=design&t=t2wuyqsyYSlrkXi8-0
+Link : https://www.figma.com/file/RFdHVK7qpdUOlhj1SiMCR9/Apk-Tasbih-Online-Digital?type=design&mode=design&t=t2wuyqsyYSlrkXi8-0

@@ -29,7 +29,7 @@ Example:
 
 ## App UI
 
-![1599723676714](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356594573412/1.jpeg)
+![1599723676714](https://media.discordapp.net/attachments/1013859611213824122/1224130977752809592/image.png))
 ![1599723696123](https://cdn.discordapp.com/attachments/1012232345295781898/1057290356351311932/6.jpeg)
 
 Link : https://www.figma.com/file/RFdHVK7qpdUOlhj1SiMCR9/Apk-Tasbih-Online-Digital?type=design&mode=design&t=t2wuyqsyYSlrkXi8-0

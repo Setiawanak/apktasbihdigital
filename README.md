@@ -8,11 +8,11 @@ E-Counter-like app . This project is developed for my Bachelor's Degree Thesis. 
 ## DEVELOPMENT STATUS
 **START DEVELOP**
 
-Development started From Changed project and final talk to build this from Okt 2020 (UAS Semester 9)
+Development started From Changed project and final talk to build this from Okt 2020 (UAS Semester 9) (Hiatus / inactive students because cost)
 
 Development Paused Feb 2022 - Jun 2022
 
-Development Progress Des 2022
+Development Progress Jun 2022 - Dec 2022
 
 **ENDED**
 ## Current app version
